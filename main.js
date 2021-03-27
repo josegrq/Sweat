@@ -1,8 +1,9 @@
+const homeController = require("./controllers/homeController");
+const errorController = require("./controllers/errorController");
 const express = require("express");
 const layouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 
-//Connect to Online DB
 mongoose.connect("mongodb://localhost:27017/ConfettiCuisine", {
   useNewUrlParser: true,
 });
@@ -13,7 +14,7 @@ app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 app.use(layouts);
 
-app.get("/", homeController.showIndex);
+app.get("/", homeController.getHomePage);
 
 //MIDDLEWARE
 //PRE-PROCESSING REQUESTS

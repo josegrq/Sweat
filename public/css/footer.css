@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+footer {
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 50px;
+  background: #394867;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #9ba4b4;
+  z-index: 100;
+}
+.law {
+  position: relative;
+  width: 100%;
+}
+.law p {
+  position: relative;
+  text-align: center;
+}

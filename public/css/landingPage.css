@@ -1,0 +1,361 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial;
+}
+
+/*Navigation Bar Style*/
+.navigation-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 75px;
+  height: 100vh;
+  background-color: #394867;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 20px;
+  box-shadow: 2px 0px 10x 5px rgba(0, 0, 0, 0.25);
+}
+
+.nav-links {
+  list-style: none;
+}
+.nav-links li span {
+  font-family: "Audiowide", sans-serif;
+}
+.website-logo {
+  height: auto;
+  width: 300px;
+  max-width: 100%;
+}
+.icon {
+  max-height: 30px;
+}
+.nav-links li {
+  text-align: center;
+  margin: 15px 0px;
+}
+.navigation-bar li,
+a,
+button {
+  text-decoration: none;
+  color: #9ba4b4;
+}
+.home-text::before {
+  content: " Home";
+}
+.notifications-text::before {
+  content: " Notifications";
+}
+.messages-text::before {
+  content: " Messages";
+}
+.profile-text::before {
+  content: " Profile";
+}
+.connections-text::before {
+  content: " Connections";
+}
+.post-text::before {
+  content: " Post";
+}
+.more-text::before {
+  content: " More";
+}
+.nav-links li button,
+.other button {
+  border-radius: 25px;
+  background-color: transparent;
+  transition: all ease 0.5s;
+  text-align: center;
+  outline: none;
+  border: none;
+  padding: 10px 20px;
+}
+.other {
+  text-align: center;
+}
+.nav-links li button:hover,
+.other button:hover {
+  background-color: #14274e;
+  text-decoration: none;
+  text-decoration-style: none;
+  transform: scale(1.1);
+  color: #f1f6f9;
+}
+
+/*Search Bar*/
+.page-title {
+  padding-right: 20px;
+}
+.search-bar-header {
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 50px;
+  background: #394867;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  text-align: center;
+  color: #9ba4b4;
+  z-index: 100;
+}
+.search {
+  position: relative;
+  width: 350px;
+  height: 40px;
+  border-radius: 10px;
+  border: 3px solid #14274e;
+}
+.search input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding: 2px 5px;
+}
+
+.search input::placeholder {
+  color: #9ba4b4;
+}
+
+/* Content-Box Title */
+.h4 {
+  font-family: Audiowide;
+}
+
+/* Page content */
+.content {
+  padding: 16px;
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+.btnReply button {
+  color: black;
+  padding: 2px 5px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* The sticky class is added to the header with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  padding-top: 102px;
+}
+
+/*background containing the content boxes */
+.body {
+  background: #9ba4b4;
+  border-radius: 25px;
+  padding: 10px 135px;
+  color: #14274e;
+}
+/* honestly not sure */
+.randomContent {
+  background: #f1f6f9;
+  padding: 10px 186px;
+  color: #14274e;
+}
+
+/*Content box is the box containing each post*/
+.content-box {
+  border: 3px solid #14274e;
+  border-radius: 25px;
+  background-color: #394867;
+  color: #9ba4b4;
+  padding: 3%;
+}
+/*holds all the content boxes*/
+.content {
+  margin: 0 auto;
+  display: block;
+}
+/*text after a video or image*/
+.txtCaption {
+  padding: 0 5%;
+}
+/*User who posted the content / reply*/
+.txtAuthor {
+  font-size: 10px;
+}
+/*the time it was posted*/
+.txtDate {
+  font-size: 10px;
+}
+/*Image formating */
+.img {
+  padding: 3%;
+  float: left;
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+}
+/*Box containing the iframe so that you can center and resize the video */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+/*the resizing part of the video box */
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  padding: 3%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+@media only screen and (max-width: 600px) {
+  .search-bar-header {
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .navigation-bar {
+    width: 140px;
+  }
+  .icon {
+    transform: scale(1.2);
+  }
+  .website-logo {
+    transform: scale(0.5);
+  }
+  .home-text::before {
+    content: "";
+  }
+  .notifications-text::before {
+    content: "";
+  }
+  .messages-text::before {
+    content: "";
+  }
+  .profile-text::before {
+    content: "";
+  }
+  .connections-text::before {
+    content: "";
+  }
+  .post-text::before {
+    content: "";
+  }
+  .more-text::before {
+    content: "";
+  }
+}
+@media only screen and (min-width: 600px) {
+  .navigation-bar {
+    width: 150px;
+  }
+  .icon {
+    transform: scale(1.2);
+  }
+  .website-logo {
+    transform: scale(0.6);
+  }
+  .home-text::before {
+    content: "";
+  }
+  .notifications-text::before {
+    content: "";
+  }
+  .messages-text::before {
+    content: "";
+  }
+  .profile-text::before {
+    content: "";
+  }
+  .connections-text::before {
+    content: "";
+  }
+  .post-text::before {
+    content: "";
+  }
+  .more-text::before {
+    content: "";
+  }
+}
+@media only screen and (min-width: 900px) {
+  .navigation-bar {
+    width: 260px;
+  }
+  .icon {
+    transform: scale(1);
+  }
+  .website-logo {
+    transform: scale(0.8);
+  }
+  .home-text::before {
+    content: " Home";
+  }
+  .notifications-text::before {
+    content: " Notifications";
+  }
+  .messages-text::before {
+    content: " Messages";
+  }
+  .profile-text::before {
+    content: " Profile";
+  }
+  .connections-text::before {
+    content: " Connections";
+  }
+  .post-text::before {
+    content: " Post";
+  }
+  .more-text::before {
+    content: " More";
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .navigation-bar {
+    width: 300px;
+  }
+  .icon {
+    transform: scale(1);
+  }
+  .website-logo {
+    transform: scale(1);
+  }
+  .home-text::before {
+    content: " Home";
+  }
+  .notifications-text::before {
+    content: " Notifications";
+  }
+  .messages-text::before {
+    content: " Messages";
+  }
+  .profile-text::before {
+    content: " Profile";
+  }
+  .connections-text::before {
+    content: " Connections";
+  }
+  .post-text::before {
+    content: " Post";
+  }
+  .more-text::before {
+    content: " More";
+  }
+}

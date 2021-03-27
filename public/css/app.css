@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding-left: 300px;
+  min-height: 100vh;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    padding-left: 140px;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  body {
+    padding-left: 150px;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  body {
+    padding-left: 260px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  body {
+    padding-left: 300px;
+  }
+}
