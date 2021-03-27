@@ -4,7 +4,7 @@ const express = require("express");
 const layouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/ConfettiCuisine", {
+mongoose.connect("mongodb://localhost:27017/Sweat", {
   useNewUrlParser: true,
 });
 
