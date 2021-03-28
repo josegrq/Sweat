@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+.main-content {
+  height: 100vh;
+  width: 100%;
+  background-color: #9ba4b4;
+}
+
+.own-modal {
+  padding: 10px;
+  background-color: #f1f6f9;
+  width: 25%;
+  border-radius: 15px;
+  align-content: center;
+  text-align: center;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.check {
+  text-align: left;
+}
+
+.modal-title {
+  font-size: 25px;
+  padding: 10px;
+}
+
+.signin-button,
+.cancel-button {
+  background-color: #14274e;
+  color: white;
+}
+
+.signin-button:hover,
+.cancel-button:hover {
+  background-color: #394867;
+  color: white;
+}

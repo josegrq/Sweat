@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+.main-content {
+  height: 100vh;
+  width: 100%;
+  background-color: #9ba4b4;
+}
+
+.logo {
+  justify-self: center;
+}
+
+.own-modal {
+  padding: 10px;
+  background-color: #f1f6f9;
+  border-radius: 15px;
+  width: 50%;
+  align-content: center;
+  text-align: center;
+}
+.modal-title {
+  font-size: 50px;
+  padding: 10px;
+}
+.center {
+  display: flex;
+  align-items: center;
+}
+
+.signin-button,
+.signup-button {
+  background-color: #14274e;
+  color: white;
+}
+
+.signin-button:hover,
+.signup-button:hover {
+  background-color: #394867;
+  color: white;
+}

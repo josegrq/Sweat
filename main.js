@@ -1,5 +1,6 @@
 const homeController = require("./controllers/homeController");
 const errorController = require("./controllers/errorController");
+const usersController = require("./controllers/usersController");
 const express = require("express");
 const layouts = require("express-ejs-layouts");
 const mongoose = require("mongoose");
@@ -14,11 +15,15 @@ app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 app.use(layouts);
 
-app.get("/", homeController.getHomePage);
+app.get("/", usersController.getWelcomePage);
+app.get("/signup", usersController.getSignUpPage);
+app.get("/login", usersController.getLoginPage);
 
 //MIDDLEWARE
 //PRE-PROCESSING REQUESTS
 app.use(express.static("public"));
+
+//We are parsing URL encoded data from the body
 app.use(
   express.urlencoded({
     extended: false,

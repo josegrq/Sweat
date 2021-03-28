@@ -1,5 +1,18 @@
-//This handles sign in and sign up requests (as well as sign out later)
+const { request } = require("express");
+const User = require("../models/user");
 
-//SignUp POST and GET
-
-//Login POST and GET
+module.exports = {
+  getWelcomePage: (request, response) => {
+    response.render("welcome", { layout: false });
+  },
+  getSignUpPage: (request, response) => {
+    response.render("signup", { layout: false });
+  },
+  //To be implemented
+  signUpUser: (request, response) => {},
+  getLoginPage: (request, response) => {
+    response.render("login", { layout: false });
+  },
+  //To be implemented
+  signInUser: (request, response) => {},
+};

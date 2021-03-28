@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+  display: true;
+}
+body {
+  background-color: #f1f6f9;
+}
+/* Add styles to the form container */
+.form-container {
+  border-radius: 25px;
+  background-color: #9ba4b4;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #14274e;
+  width: 60%; /* Could be more or less, depending on screen size */
+  /*height: 50%;*/
+}
+
+.container {
+  padding: 12px;
+}
+
+/*Header Line */
+hr {
+  border: 1px solid #14274e;
+  margin-bottom: 25px;
+}
+
+/* Full-width input fields */
+.form-container input[type="text"],
+.form-container input[type="password"] {
+  width: 100%;
+  padding: 13px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f6f9;
+}
+
+/* Full-width input fields */
+.form-container input[type="text"],
+.form-container input[type="email"] {
+  width: 100%;
+  padding: 13px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f6f9;
+}
+
+.form-container input[type="date"],
+.form-container input[type="date"] {
+  width: 100%;
+  padding: 13px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f6f9;
+}
+
+/* Set a style for the submit/signUp button */
+.form-container .btn {
+  background-color: #1427fe;
+  color: white;
+  padding: 12x 16px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: #fe1414;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover,
+.open-button:hover {
+  opacity: 1;
+}
