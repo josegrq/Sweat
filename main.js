@@ -9,18 +9,18 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 //const expressValidator = require("express-validator");
 
-//Authentication
+//Flash Messages
 const session = require("express-session");
 const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 
+//Configurations to using coookie-parser
 sess = {
-  secret: "MyS3cretPwrd",
+  secret: "My-53cr3t_C0d3",
   resave: false,
   saveUninitialized: false,
   cookie: {
     maxAge: 4000000,
-    secure: true,
   },
 };
 mongoose
@@ -37,7 +37,6 @@ const router = express.Router();
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 router.use(layouts);
-router.use(cookieParser("secret_passcode"));
 
 /*
 app.get("/", usersController.getWelcomePage);
@@ -47,6 +46,22 @@ app.get("/login", usersController.getLoginPage);*/
 //MIDDLEWARE
 //PRE-PROCESSING REQUESTS
 router.use(express.static("public"));
+router.use(cookieParser("My-53cr3t_C0d3"));
+router.use(
+  session({
+    secret: "My-53cr3t_C0d3",
+    cookie: {
+      maxAge: 4000000,
+    },
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+router.use(flash());
+router.use((request, response, next) => {
+  response.locals.flashMessages = request.flash();
+  next();
+});
 
 //We are parsing URL encoded data from the body
 app.use(
@@ -54,20 +69,13 @@ app.use(
     extended: false,
   })
 );
-router.use(flash());
-router.use(session(sess));
-
-router.use((request, response, next) => {
-  response.locals.flashMessages = request.flash();
-  next();
-});
 //Interpret body and query string data as JSON
 router.use(express.json());
 router.use(methodOverride("_method", { methods: ["POST", "GET"] }));
 //router.use(expressValidator());
 
 //ROUTES GO HERE
-router.get("/users", usersController.getWelcomePage);
+router.get("/", usersController.getWelcomePage);
 router.get("/users/signup", usersController.getSignUpPage);
 router.get("/users/login", usersController.getLoginPage);
 router.post(

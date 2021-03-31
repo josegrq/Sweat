@@ -19,6 +19,15 @@
 
   <body>
     <header></header>
+    <div class="flash-messages">
+      <% if(flashMessages) { %> <% if(flashMessages.success) { %>
+      <div class="alert alert-success"><%= flashMessages.success %></div>
+      <% }else if(flashMessages.error) { %>
+      <div class="alert alert-danger"><%= flashMessages.error %></div>
+      <% }else if(flashMessages.warning) { %>
+      <div class="alert alert-warning"><%= flashMessages.warning %></div>
+      <% } %> <% } %>
+    </div>
     <form action="/users/login" method="POST">
       <div class="main-content centered">
         <div class="own-modal">
@@ -99,7 +108,7 @@
             <div class="row">
               <div class="col-sm-1"></div>
               <div class="col-sm-10">
-                <a href="/users" class="btn btn-lg col-sm-12 cancel-button">
+                <a href="/" class="btn btn-lg col-sm-12 cancel-button">
                   Cancel
                 </a>
               </div>

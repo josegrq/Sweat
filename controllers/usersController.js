@@ -3,7 +3,7 @@ const User = require("../models/user");
 
 module.exports = {
   getWelcomePage: (request, response) => {
-    response.render("users/welcome", { layout: false });
+    response.render("welcome", { layout: false });
   },
   //NEW
   getSignUpPage: (request, response) => {
@@ -50,10 +50,19 @@ module.exports = {
           user.password === request.body.password
         ) {
           console.log("wow");
+          request.flash(
+            "success",
+            `Welcome! ${user.first_name} ${user.last_name} you were logged in.`
+          );
           response.locals.redirect = `/users/${user._id}`;
           response.locals.user = user;
         } else {
+          console.log("3");
           response.locals.redirect = "/users/login";
+          request.flash(
+            "warning",
+            "Oops! Double check your username/email and/or password."
+          );
         }
         /*if (user != undefined) {
           console.log(user);
@@ -76,7 +85,12 @@ module.exports = {
         next();
       })
       .catch((error) => {
+        console.log("4");
         console.log(error.message);
+        console.log("5");
+
+        response.locals.redirect = "/users/login";
+        request.flash("error", `User failed to login: ${error.message}.`);
         next(error);
       });
   },
