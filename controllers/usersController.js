@@ -11,7 +11,44 @@ module.exports = {
   },
   //To be implemented
   //CREATE
-  signUpUser: (request, response) => {},
+  new: (request, response) =>{
+    response.render("users/new");
+  },
+  create: (request, response) => {
+    let newUser = {
+      name:{
+        first_name: request.body.first_name,
+        last_name: request.body.last_name
+      },
+
+      username: request.body.username,
+      dob: request.body.dob,
+      email: request.body.email,
+      gender: request.body.gender,
+
+      location: {
+        address: request.body.address,
+        city: request.body.city,
+        state: request.body.state,
+        zipCode: request.body.zipCode
+      },
+
+      password: request.body.password,
+      question: request.body.security_questions.question,
+      answer: request.body.security_questions.answer,
+      bio: request.body.bio
+
+    };
+    User.create(newUser)
+    .then(user => {
+      res.locals.redirect = "/users/login";
+      res.locals.user = user;
+      next();
+    })
+    .catch(error => {
+      console.log(`error saving user: ${error.message}`);
+      next(error)});
+  },
 
   //LOGIN methods
   getLoginPage: (request, response) => {

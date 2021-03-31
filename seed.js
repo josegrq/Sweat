@@ -27,131 +27,121 @@ var data = [
         },
         username: "JOSEGRQ",
         gender: "male",
-        location: "",
+        location: {
+          address: "12345 st",
+          city: "Denver",
+          state: "Colorado",
+          zipCode: "12345"
+
+        },
         email: "jose.ramirez@gmail.com",
         password: "SecretPassword1234",
         dob: "1997-10-19",
         security_questions: [
           {
-            question: "What is your favorite color?",
-            answer: "Green",
-          },
-          {
-            question: "What is your favorite hobby?",
-            answer: "Hiking",
-          },
-          {
-            question: "What is your favorite movie genre?",
-            answer: "Comedy",
-          },
+            question: "What was your first place of employment?",
+            answer: "Store",
+          }
         ],
         bio: "",
       },
       {
         name: {
-          first_name: "Gabriel",
-          last_name: "Quezada",
+          first_name: "Bill",
+          last_name: "Doetrive",
         },
-        username: "GQ",
+        username: "BillyBoy",
         gender: "male",
-        location: "",
-        email: "g.quezada@email.com",
-        password: "SecretPassword1234",
-        dob: "2003-06-02",
+        location: {
+          address: "12345 st",
+          city: "Denver",
+          state: "Colorado",
+          zipCode: "12345"
+
+        },
+        email: "billy@gmail.com",
+        password: "SecretPassword34",
+        dob: "1990-15-20",
         security_questions: [
           {
-            question: "What is your favorite color?",
-            answer: "Red",
-          },
-          {
-            question: "What is your favorite hobby?",
-            answer: "Painting",
-          },
-          {
-            question: "What is your favorite movie genre?",
-            answer: "Horror",
-          },
+            question: "What was your first place of employment?",
+            answer: "Store",
+          }
         ],
         bio: "",
       },
       {
         name: {
-          first_name: "Alex",
-          last_name: "Ramirez",
+          first_name: "Hank",
+          last_name: "Hill",
         },
-        username: "AlexR",
+        username: "mrHill",
         gender: "male",
-        location: "",
-        email: "AlexR@gmail.com",
-        password: "SecretPassword1234",
-        dob: "1995-11-23",
+        location: {
+          address: "12345 st",
+          city: "Denver",
+          state: "Colorado",
+          zipCode: "12345"
+
+        },
+        email: "hankhill@gmail.com",
+        password: "SecretPass12",
+        dob: "1960-10-19",
         security_questions: [
           {
-            question: "What is your favorite color?",
-            answer: "Red",
-          },
-          {
-            question: "What is your favorite hobby?",
-            answer: "Gaming",
-          },
-          {
-            question: "What is your favorite movie genre?",
-            answer: "Horror",
-          },
+            question: "What was your first place of employment?",
+            answer: "Store",
+          }
         ],
         bio: "",
       },
       {
         name: {
-          first_name: "Brenda",
-          last_name: "Hernandez",
+          first_name: "Boomhauer",
+          last_name: "Boomer",
         },
-        username: "BHern",
-        gender: "female",
-        location: "",
-        email: "brenda@email.com",
-        password: "SecretPassword1234",
-        dob: "1990-08-29",
+        username: "Boomer",
+        gender: "male",
+        location: {
+          address: "12345 st",
+          city: "Denver",
+          state: "Colorado",
+          zipCode: "12345"
+
+        },
+        email: "mumbler@gmail.com",
+        password: "Secret234",
+        dob: "1997-10-19",
         security_questions: [
           {
-            question: "What is your favorite color?",
-            answer: "White",
-          },
-          {
-            question: "What is your favorite hobby?",
-            answer: "Watching Movies",
-          },
-          {
-            question: "What is your favorite movie genre?",
-            answer: "Comedy",
-          },
+            question: "What was your first place of employment?",
+            answer: "Store",
+          }
         ],
         bio: "",
       },
       {
         name: {
-          first_name: "Maria",
-          last_name: "Rodriguez",
+          first_name: "Dale",
+          last_name: "Grible",
         },
-        username: "MRodri",
-        gender: "female",
-        location: "",
-        email: "marodriguez@gmail.com",
-        password: "SecretPassword1234",
-        dob: "1996-07-26",
+        username: "Exterminator",
+        gender: "male",
+        location: {
+          address: "12345 st",
+          city: "Denver",
+          state: "Colorado",
+          zipCode: "12345"
+
+        },
+        email: "guns4life@gmail.com",
+        password: "Ikillthings123",
+        dob: "1950-10-19",
         security_questions: [
           {
-            question: "What is your favorite color?",
-            answer: "Pink",
-          },
-          {
-            question: "What is your favorite hobby?",
-            answer: "Biking",
-          },
-          {
-            question: "What is your favorite movie genre?",
-            answer: "Drama",
-          },
+            question: "What was your first place of employment?",
+            answer: "Store",
+          }
         ],
         bio: "",
       },

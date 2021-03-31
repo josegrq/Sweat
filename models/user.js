@@ -29,10 +29,29 @@ const userSchema = mongoose.Schema({
     trim: true,
   },
   location: {
-    type: String,
-    lowercase: true,
-    required: false,
-    trim: true,
+      address: {
+        type: String,
+        lowercase: true,
+        required: false,
+        trim: true,
+      },
+      city: {
+        type: String,
+        lowercase: true,
+        required: false,
+        trim: true,
+      },
+      state: {
+        type: String,
+        lowercase: true,
+        required: false,
+        trim: true,
+      },
+      zipCode: {
+        type: Number,
+        required: false,
+        trim: true,
+      },
   },
   email: {
     type: String,

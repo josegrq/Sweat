@@ -77,6 +77,7 @@ router.use(methodOverride("_method", { methods: ["POST", "GET"] }));
 //ROUTES GO HERE
 router.get("/", usersController.getWelcomePage);
 router.get("/users/signup", usersController.getSignUpPage);
+router.get("/users/create", usersController.create);
 router.get("/users/login", usersController.getLoginPage);
 router.post(
   "/users/login",
