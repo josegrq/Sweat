@@ -89,7 +89,7 @@ const userSchema = mongoose.Schema({
   },
 });
 
-userSchema.pre("save", function(next) {
+/*userSchema.pre("save", function(next) {
   let user = this;
   bcrypt
     .hash(user.password, 10)
@@ -101,7 +101,7 @@ userSchema.pre("save", function(next) {
       console.log(`Error hashing password: ${error.message}`);
       next(error);
     });
-});
+});*/
 
 userSchema.methods.comparePassword = async (password) => {
   let user = this;

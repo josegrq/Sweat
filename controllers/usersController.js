@@ -45,8 +45,9 @@ module.exports = {
     };
     User.create(newUser)
     .then(user => {
-      response.locals.redirect = "/users/login";
+      response.locals.redirect = "welcome";
       response.locals.user = user;
+      console.log("user created");
       next();
     })
     .catch(error => {

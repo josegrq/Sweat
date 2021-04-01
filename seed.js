@@ -25,7 +25,7 @@ var data = [
           firstName: "Jose",
           lastName: "Ramirez",
         },
-        userName: "JOSEGRQ",
+        username: "JOSEGRQ",
         gender: "male",
         location: {
           street: "12345 st",
@@ -49,7 +49,7 @@ var data = [
           firstName: "Bill",
           lastName: "Doetrive",
         },
-        userName: "BillyBoy",
+        username: "BillyBoy",
         gender: "male",
         location: {
           street: "12345 st",
@@ -73,7 +73,7 @@ var data = [
           firstName: "Hank",
           lastName: "Hill",
         },
-        userName: "mrHill",
+        username: "mrHill",
         gender: "male",
         location: {
           street: "12345 st",
@@ -97,7 +97,7 @@ var data = [
           firstName: "Boomhauer",
           lastName: "Boomer",
         },
-        userName: "Boomer",
+        username: "Boomer",
         gender: "male",
         location: {
           street: "12345 st",
@@ -121,7 +121,7 @@ var data = [
           firstName: "Dale",
           lastName: "Grible",
         },
-        userName: "Exterminator",
+        username: "Exterminator",
         gender: "male",
         location: {
           street: "12345 st",
