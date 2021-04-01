@@ -39,3 +39,31 @@ As mentioned in Assignment 1, we decided to show a welcome page to the user as t
     The controllers, specially the usersController was implemented to fit the CRUD structure.
 
     All the design choices made were made to keep it simple for the user to navigate throught the site.
+
+
+Kyle VanSteelandt:
+
+    I have worked on:
+        -signup.ejs
+        -controllers
+        -seed.js (redid the formating, variable names, and types to match the form)
+        -main.js
+        -error.ejs
+
+    My biggest issue with the signUp form that I ran into was the fact that I couldn't get the Vue.js script
+    that I had created in assignment 2 to carry over and validate the form once it was completed. A lot of the solutions or work arounds I had found online either were not working for me or required something that was never talked about in class. Honestly thought we were supposed to use it because the requirements state that signup.js from assignment 2 needs to be in the public folder. Only thing is ejs has a hard time finding it and using it properly.
+
+    So what the form currently can do:
+        -It will use the Browser to check if all the required fields are completed, if not it will bring the user to the first required field and ask that it be completed.
+        -All the field that have a invalid character or were blank will turn red
+        -If all fields are filled then the new User is added to the database and can login to the site 
+        
+    Issues I am having:
+        -While some of the validation functions work the compare password does not. The validation goes through as long as both password fields are filled.
+
+        Any feedback on how I can do this properly is welcome.
+    
+
+
+
+    

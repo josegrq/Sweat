@@ -18,7 +18,7 @@ exports.pageNotFoundError = (request, response) => {
 exports.internalServerError = (error, request, response, next) => {
   let errorCode = httpErrorStatusCodes.INTERNAL_SERVER_ERROR;
   response.status(errorCode);
-  response.send(`${errorCode}, Opps! A little too sweaty...`);
+  response.send(`${errorCode}, Opps! A little too sweaty something broke...`);
   //response.sendFile(`./public/${errorCode}.html`, {
   //  root: "./",
   //});
