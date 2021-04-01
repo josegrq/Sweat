@@ -11,17 +11,17 @@ module.exports = {
   },
   //To be implemented
   //CREATE
-  new: (request, response) =>{
+  new: (request, response, next) => {
     response.render("users/new");
   },
-  create: (request, response) => {
+  create: (request, response, next) => {
     let newUser = {
       name:{
         firstName: request.body.firstName,
         lastName: request.body.lastName
       },
 
-      userName: request.body.userName,
+      username: request.body.username,
       dob: request.body.dob,
       email: request.body.email,
       gender: request.body.gender,

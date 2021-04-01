@@ -43,7 +43,7 @@
                     <div class="auto">
                         <label for="txtUserName"><b>Username:*</b></label>
                         <input id="txtUserName"  type="text" placeholder="Username"
-                            name="userName" required>
+                            name="username" required>
                     </div>
                 </div>
 
@@ -207,12 +207,12 @@
                 document.getElementsByName("lastName")[0].style.backgroundColor = "red";
             }
             /*Username*/
-            if (!this.userName) {
+            if (!this.username) {
                 this.errors.push("User Name required.");
-                document.getElementsByName("userName")[0].style.backgroundColor = "red";
-            } else if (!this.vaildText(this.userName)) {
+                document.getElementsByName("username")[0].style.backgroundColor = "red";
+            } else if (!this.vaildText(this.username)) {
                 this.errors.push('Invalid characters in User Name.');
-                document.getElementsByName("userName")[0].style.backgroundColor = "red";
+                document.getElementsByName("username")[0].style.backgroundColor = "red";
             }
             /*Email*/
             if (!this.email) {

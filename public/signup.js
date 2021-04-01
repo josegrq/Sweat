@@ -5,7 +5,7 @@ const Sweat = Vue.createApp({
             errors: [],
             firstName: null,
             lastName: null,
-            userName: null,
+            username: null,
             email: null,
             confirmEmail: null,
             password: null,
@@ -57,12 +57,12 @@ const Sweat = Vue.createApp({
                 document.getElementsByName("lastName")[0].style.backgroundColor = "red";
             }
             /*Username*/
-            if (!this.userName) {
+            if (!this.username) {
                 this.errors.push("User Name required.");
-                document.getElementsByName("userName")[0].style.backgroundColor = "red";
-            } else if (!this.vaildText(this.userName)) {
+                document.getElementsByName("username")[0].style.backgroundColor = "red";
+            } else if (!this.vaildText(this.username)) {
                 this.errors.push('Invalid characters in User Name.');
-                document.getElementsByName("userName")[0].style.backgroundColor = "red";
+                document.getElementsByName("username")[0].style.backgroundColor = "red";
             }
             /*Email*/
             if (!this.email) {
