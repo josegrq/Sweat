@@ -1,5 +1,7 @@
 # Sweat
 
+Description:
+Sweat is a social media web application specially cretaed for the use of athletes in the community. This app follows the same foot steps as other social media applications like Facebook, Twitter, and Instagram.
 INSTRUCTIONS:
 After you have clone the reposory into a local folder, run the command below to install all the dependencies. You need to be in the folder where the repository was cloned.
 
