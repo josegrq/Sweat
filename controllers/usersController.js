@@ -43,10 +43,10 @@ module.exports = {
       bio: request.body.bio
 
     };
-    User.save(newUser)
-    .then(newUser => {
+    User.create(newUser)
+    .then(user => {
       res.locals.redirect = "/users/login";
-      res.locals.newUser = newUser;
+      res.locals.user = user;
       next();
     })
     .catch(error => {

@@ -1,5 +1,10 @@
 const httpErrorStatusCodes = require("http-status-codes");
 
+exports.logErrors = (error, req, res, next) => {
+  console.error(error.stack);
+  next(error);
+};
+
 exports.pageNotFoundError = (request, response) => {
   let errorCode = httpErrorStatusCodes.NOT_FOUND;
   response.status(errorCode);

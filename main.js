@@ -89,6 +89,7 @@ router.get("/users/:id", usersController.show, usersController.showView);
 //app.use("/users", userRoutes);
 
 //PAGE ERROR HANDLING
+router.use(errorController.logErrors);
 router.use(errorController.pageNotFoundError);
 router.use(errorController.internalServerError);
 
