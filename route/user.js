@@ -11,7 +11,7 @@ router.get("/login", (request, response) => {
 });
 
 //Handle POST
-router.post("/signup", (request, response, next) => {});
+router.post("/create", (request, response, next) => {});
 router.post("/login", (request, response, next) => {});
 router.get("/logout", (request, response) => {});
 

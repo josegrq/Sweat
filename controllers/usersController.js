@@ -17,11 +17,11 @@ module.exports = {
   create: (request, response) => {
     let newUser = {
       name:{
-        first_name: request.body.first_name,
-        last_name: request.body.last_name
+        firstName: request.body.firstName,
+        lastName: request.body.lastName
       },
 
-      username: request.body.username,
+      userName: request.body.userName,
       dob: request.body.dob,
       email: request.body.email,
       gender: request.body.gender,
@@ -34,15 +34,19 @@ module.exports = {
       },
 
       password: request.body.password,
-      question: request.body.security_questions.question,
-      answer: request.body.security_questions.answer,
+      
+      security_questions: {  
+        question: request.body.question,
+        answer: request.body.answer
+      },
+
       bio: request.body.bio
 
     };
-    User.create(newUser)
-    .then(user => {
+    User.save(newUser)
+    .then(newUser => {
       res.locals.redirect = "/users/login";
-      res.locals.user = user;
+      res.locals.newUser = newUser;
       next();
     })
     .catch(error => {
@@ -89,7 +93,7 @@ module.exports = {
           console.log("wow");
           request.flash(
             "success",
-            `Welcome! ${user.first_name} ${user.last_name} you were logged in.`
+            `Welcome! ${user.firstName} ${user.lastName} you were logged in.`
           );
           response.locals.redirect = `/users/${user._id}`;
           response.locals.user = user;

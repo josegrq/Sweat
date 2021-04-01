@@ -22,127 +22,122 @@ var data = [
     documents: [
       {
         name: {
-          first_name: "Jose",
-          last_name: "Ramirez",
+          firstName: "Jose",
+          lastName: "Ramirez",
         },
-        username: "JOSEGRQ",
+        userName: "JOSEGRQ",
         gender: "male",
         location: {
-          address: "12345 st",
+          street: "12345 st",
           city: "Denver",
           state: "Colorado",
-          zipCode: "12345"
+          zipCode: 12345
 
         },
         email: "jose.ramirez@gmail.com",
         password: "SecretPassword1234",
         dob: "1997-10-19",
-        security_questions: [
-          {
-            question: "What was your first place of employment?",
-            answer: "Store",
-          }
-        ],
+        security_questions: 
+        {
+          question: "What was your first place of employment?",
+          answer: "Store",
+        },
         bio: "",
       },
       {
         name: {
-          first_name: "Bill",
-          last_name: "Doetrive",
+          firstName: "Bill",
+          lastName: "Doetrive",
         },
-        username: "BillyBoy",
+        userName: "BillyBoy",
         gender: "male",
         location: {
-          address: "12345 st",
+          street: "12345 st",
           city: "Denver",
           state: "Colorado",
-          zipCode: "12345"
+          zipCode: 12345
 
         },
         email: "billy@gmail.com",
-        password: "SecretPassword34",
-        dob: "1990-15-20",
-        security_questions: [
-          {
-            question: "What was your first place of employment?",
-            answer: "Store",
-          }
-        ],
+        password: "SecretPassword1234",
+        dob: "1990-10-10",
+        security_questions: 
+        {
+          question: "What was your first place of employment?",
+          answer: "Store",
+        },
         bio: "",
       },
       {
         name: {
-          first_name: "Hank",
-          last_name: "Hill",
+          firstName: "Hank",
+          lastName: "Hill",
         },
-        username: "mrHill",
+        userName: "mrHill",
         gender: "male",
         location: {
-          address: "12345 st",
+          street: "12345 st",
           city: "Denver",
           state: "Colorado",
-          zipCode: "12345"
+          zipCode: 12345
 
         },
         email: "hankhill@gmail.com",
-        password: "SecretPass12",
+        password: "SecretPassword1234",
         dob: "1960-10-19",
-        security_questions: [
-          {
-            question: "What was your first place of employment?",
-            answer: "Store",
-          }
-        ],
+        security_questions: 
+        {
+          question: "What was your first place of employment?",
+          answer: "Store",
+        },
         bio: "",
       },
       {
         name: {
-          first_name: "Boomhauer",
-          last_name: "Boomer",
+          firstName: "Boomhauer",
+          lastName: "Boomer",
         },
-        username: "Boomer",
+        userName: "Boomer",
         gender: "male",
         location: {
-          address: "12345 st",
+          street: "12345 st",
           city: "Denver",
           state: "Colorado",
-          zipCode: "12345"
+          zipCode: 12345
 
         },
         email: "mumbler@gmail.com",
-        password: "Secret234",
+        password: "SecretPassword1234",
         dob: "1997-10-19",
-        security_questions: [
-          {
-            question: "What was your first place of employment?",
-            answer: "Store",
-          }
-        ],
+        security_questions: 
+        {
+          question: "What was your first place of employment?",
+          answer: "Store",
+        },
         bio: "",
       },
       {
         name: {
-          first_name: "Dale",
-          last_name: "Grible",
+          firstName: "Dale",
+          lastName: "Grible",
         },
-        username: "Exterminator",
+        userName: "Exterminator",
         gender: "male",
         location: {
-          address: "12345 st",
+          street: "12345 st",
           city: "Denver",
           state: "Colorado",
-          zipCode: "12345"
+          zipCode: 12345
 
         },
         email: "guns4life@gmail.com",
-        password: "Ikillthings123",
+        password: "SecretPassword1234",
         dob: "1950-10-19",
-        security_questions: [
-          {
-            question: "What was your first place of employment?",
-            answer: "Store",
-          }
-        ],
+        security_questions: 
+        {
+          question: "What was your first place of employment?",
+          answer: "Store",
+        },
         bio: "",
       },
     ],

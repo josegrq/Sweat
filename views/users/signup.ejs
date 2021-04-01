@@ -4,8 +4,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="http://localhost:3000/css/signup.css" rel="stylesheet" type="text/css">
-    <script src="https://unpkg.com/vue@next"></script>
-    <script src="ejs.min.js"></script>
+    
     <title>Sign up for Sweat</title>
     <style>
         body {
@@ -15,78 +14,74 @@
 
 </head>
 
+
 <body>
 
-
     <div class="form-popup" id="app">
-        <form @submit="checkForm" action="/users/create" method="post" class="form-container">
+        <form action="/users/login" method="POST" class="form-container">
             <div class="container">
                 <h1>Sign Up</h1>
-                <p v-if="errors.length">Please correct the following:
-                <ul>
-                    <li v-for="error in errors">{{ error }}</li>
-                </ul>
-                </p>
+                
                 <p>Please fill out this form to create an account with Sweat.</p>
                 <hr>
                 <div class="form-group col">
                     <div class="auto">
                         <label for="txtFirstName"><b>First Name:*</b></label>
-                        <input id="txtFirstName" v-model="firstName" type="text" placeholder="First Name"
-                            name="firstName">
+                        <input id="txtFirstName" type="text" placeholder="First Name"
+                            name="firstName" required>
                     </div>
                 </div>
                 <div class="form-group col">
                     <div class="auto">
                         <label for="txtLastName"><b>Last Name:*</b></label>
-                        <input id="txtLastName" v-model="lastName" type="text" placeholder="Last Name"
-                            name="lastName">
+                        <input id="txtLastName" type="text" placeholder="Last Name"
+                            name="lastName" required>
                     </div>
                 </div>
 
                 <div class="form-group col">
                     <div class="auto">
                         <label for="txtUserName"><b>Username:*</b></label>
-                        <input id="txtUserName" v-model="userName" type="text" placeholder="Username"
-                            name="userName">
+                        <input id="txtUserName"  type="text" placeholder="Username"
+                            name="userName" required>
                     </div>
                 </div>
 
                 <div class="form-group col">
                     <div class="auto">
                         <label for="txtDoB"><b>Date of birth:*</b></label>
-                        <input id="txtDoB" type="date" v-model="dob" name="dob" required class="form-control" required>
+                        <input id="txtDoB" type="date" name="dob" required class="form-control" required>
                     </div>
                 </div>
 
                 <div class="form-group col">
                     <div class="auto">
                         <label for="txtEmail"><b>Email:*</b></label>
-                        <input id="txtEmail" v-model="email" type="email" placeholder="Enter Email" name="email">
+                        <input id="txtEmail"  type="email" placeholder="Enter Email" name="email" required>
                     </div>
                 </div>
 
                 <div class="form-group col">
                     <div class="auto">
                         <label for="txtConfirmEmail"><b>Confirm Email:*</b></label>
-                        <input id="txtConfirmEmail" v-model="confirmEmail" type="email" placeholder="Confirm Email"
-                            name="confirmEmail">
+                        <input id="txtConfirmEmail" type="email" placeholder="Confirm Email"
+                            name="confirmEmail" required>
                     </div>
                 </div>
 
                 <div class="form-group col">
                     <div class="auto">
                         <label for="txtPassword"><b>Password:*</b></label>
-                        <input id="txtPassword" v-model="password" type="password" placeholder="Enter Password"
-                            name="password">
+                        <input id="txtPassword" type="password" placeholder="Enter Password"
+                            name="password" required>
                     </div>
                 </div>
 
                 <div class="form-group col">
                     <div class="auto">
                         <label for="txtConfirmPassword"><b>Confirm Password:*</b></label>
-                        <input id="txtConfirmPassword" v-model="confirmPassword" type="password"
-                            placeholder="Confirm Password" name="confirmPassword">
+                        <input id="txtConfirmPassword"  type="password"
+                            placeholder="Confirm Password" name="confirmPassword" required>
                     </div>
                 </div>
 
@@ -94,15 +89,15 @@
                     <label><b>Gender:</b> </label>
                     <div class="auto">
                         <div class="form-check">
-                            <input type="radio" id="rbMale" v-model="gender" name="gender" value="male" class="form-check-input">
+                            <input type="radio" id="rbMale" name="gender" value="male" class="form-check-input">
                             <label for="rbMale" class="form-check-label"><b>Male</b></label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" id="rbFemale" v-model="gender" name="gender" value="female" class="form-check-input">
+                            <input type="radio" id="rbFemale"  name="gender" value="female" class="form-check-input">
                             <label for="rbFemale" class="form-check-label"><b>Female</b></label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" id="rbOther" v-model="gender" name="gender" value="other" class="form-check-input">
+                            <input type="radio" id="rbOther" name="gender" value="other" class="form-check-input">
                             <label for="rbOther" class="form-check-label"><b>Other</b></label>
                         </div>
                     </div>
@@ -114,19 +109,19 @@
                             <b>Address:</b>
                         </label>
                         <div class="col auto">
-                            <input type="text" v-model="street" id="txtStreet" name="street" class="form-control"
+                            <input type="text" id="txtStreet" name="street" class="form-control"
                                 placeholder="Street">
                         </div>
                         <div class="col auto">
-                            <input type="text" v-model="city" id="txtCity" name="city" class="form-control"
+                            <input type="text" id="txtCity" name="city" class="form-control"
                                 placeholder="City">
                         </div>
                         <div class="col auto">
-                            <input type="text" v-model="state" id="txtState" name="state" class="form-control"
+                            <input type="text" id="txtState" name="state" class="form-control"
                                 placeholder="State">
                         </div>
                         <div class="col auto">
-                            <input type="text" v-model="zipCode" id="txtZipcode" name="zipCode" class="form-control"
+                            <input type="text" id="txtZipcode" name="zipCode" class="form-control"
                                 placeholder="Zipcode" pattern="[0-9]{5}">
                         </div>
                     </div>
@@ -136,14 +131,17 @@
                 <div class="form-group col">
                     <div class="auto">
                         <label for="securityQuestions"><b>Security Questions:*</b></label>
-                        <select v-model="question" name="question" id="securityQuestions">
-                            <option v-for="option in options" v-bind:value="option.id" v-bind:key="option.value">
-                                {{option.value}}</option>
+                        <select  name="question" id="securityQuestions" required>
+                            <option value= 0> </option>
+                            <option value= "What was your first place of employment?"> What was your first place of employment?</option>
+                            <option value= "What was your schools mascot?"> What was your schools mascot?</option>
+                            <option value= "What is your favorite team?"> What is your favorite team?</option>
+                            <option value= "What is your favorite workout?"> What is your favorite workout?</option>
                         </select>
                         <br>
-                        <div v-if="securityQuestions >= 1" class="col auto" name="answer" id="securityAnswer">
-                            <input type="text" v-model="answer" id="securityAnswers" name="answer"
-                                class="form-control" placeholder="Answer">
+                        <div class="col auto" name="answer" id="securityAnswer">
+                            <input type="text" id="securityAnswers" name="answer"
+                                class="form-control" placeholder="Answer" required>
                         </div>
                     </div>
 
@@ -155,7 +153,7 @@
                             <label for="txtBio"><b>About Me:</b></label>
                         </div>
                         <div class="col-95">
-                            <textarea id="txtBio" v-model="bio" name="bio" rows="4" cols="50" class="form-control"
+                            <textarea id="txtBio" name="bio" rows="4" cols="50" class="form-control"
                                 placeholder="Tell us about yourself."></textarea>
                             <br><br>
                         </div>
@@ -167,9 +165,9 @@
 
                 <p>By creating an account you agree to our <a href="#" style="color: #1427FE">Terms & Privacy</a>.</p>
 
-                <div class="clearfix">
-                    <button type="submit" class="btn" value="submit">Sign Up</button>
-                    <button type="submit" class="btn cancel" onclick="goBack()">Close</button>
+                <div class="clearfix auto">
+                    <button type="submit" class="button" value="submit" onclick="checkForm()">Sign Up</button>
+                    <button type="cancel" class="button cancel" onclick="goBack()">Close</button>
                 </div>
             </div>
         </form>
@@ -185,13 +183,126 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     
-    <script src="../../public/signup.js"></script>
     <script>
         function goBack() {
             window.history.back();
         }
+
+        function checkForm() {
+            this.errors = [];
+            /*First Name*/
+            if (!this.firstName) {
+                this.errors.push("First Name required.");
+                document.getElementsByName("firstName")[0].style.backgroundColor = "red";
+            } else if (!this.vaildText(this.firstName)) {
+                this.errors.push('Invalid characters in First Name.');
+                document.getElementsByName("firstName")[0].style.backgroundColor = "red";
+            }
+            /*Last Name*/
+            if (!this.lastName) {
+                this.errors.push("Last Name required.");
+                document.getElementsByName("lastName")[0].style.backgroundColor = "red";
+            } else if (!this.vaildText(this.lastName)) {
+                this.errors.push('Invalid characters in Last Name.');
+                document.getElementsByName("lastName")[0].style.backgroundColor = "red";
+            }
+            /*Username*/
+            if (!this.userName) {
+                this.errors.push("User Name required.");
+                document.getElementsByName("userName")[0].style.backgroundColor = "red";
+            } else if (!this.vaildText(this.userName)) {
+                this.errors.push('Invalid characters in User Name.');
+                document.getElementsByName("userName")[0].style.backgroundColor = "red";
+            }
+            /*Email*/
+            if (!this.email) {
+                this.errors.push('Email required.');
+                document.getElementsByName("email")[0].style.backgroundColor = "red";
+            } else if (!this.validEmail(this.email)) {
+                this.errors.push('Valid email required.');
+                document.getElementsByName("email")[0].style.backgroundColor = "red";
+            }
+
+            if (!this.confirmEmail) {
+                this.errors.push('Please confirm email address.');
+                document.getElementsByName("confirmEmail")[0].style.backgroundColor = "red";
+            } else if (this.email != this.confirmEmail) {
+                this.errors.push('Email and Email Confirmation do not match');
+                document.getElementsByName("email")[0].style.backgroundColor = "red";
+                document.getElementsByName("confirmEmail")[0].style.backgroundColor = "red";
+            }
+            /*Password*/
+            if (!this.password) {
+                this.errors.push("Password required.");
+                document.getElementsByName("password")[0].style.backgroundColor = "red";
+            }
+            if (!this.confirmPassword) {
+                this.errors.push("Please confrim your password.");
+                document.getElementsByName("confirmPassword")[0].style.backgroundColor = "red";
+            } else if (this.password != this.confirmPassword) {
+                this.errors.push('Password and Password confirmation do not match');
+                document.getElementsByName("confirmPassword")[0].style.backgroundColor = "red";
+                document.getElementsByName("password")[0].style.backgroundColor = "red";
+            } else {
+                for (let condition of this.passwordRules) {
+                    if (!condition.regex.test(this.password)) {
+                        this.errors.push(condition.message);
+                        document.getElementsByName("password")[0].style.backgroundColor = "red";
+                    }
+                }
+            }
+            /*Address*/
+            if (!this.vaildText(this.street)) {
+                this.errors.push('Invalid characters in Street Address.');
+                document.getElementsByName("street")[0].style.backgroundColor = "red";
+            }
+            if (!this.vaildText(this.city)) {
+                this.errors.push('Invalid characters in City field.');
+                document.getElementsByName("city")[0].style.backgroundColor = "red";
+            }
+            if (!this.vaildText(this.state)) {
+                this.errors.push('Invalid characters in State field.');
+                document.getElementsByName("state")[0].style.backgroundColor = "red";
+            }
+            if (!this.vaildText(this.zipCode)) {
+                this.errors.push('Invalid characters in Zipcode field.');
+                document.getElementsByName("zipCode")[0].style.backgroundColor = "red";
+            }
+
+            /*Security Question*/
+            if(this.question == ""){
+                this.errors.push('Security Question is required.');
+                document.getElementsByName("question")[0].style.backgroundColor = "red";
+            }
+            if (!this.answer) {
+                this.errors.push('Security Answer is required.');
+                document.getElementsByName("answer")[0].style.backgroundColor = "red";
+            }
+            else if (!this.vaildText(this.answer)) {
+                this.errors.push('Invalid characters in Security field.');
+                document.getElementsByName("answer")[0].style.backgroundColor = "red";
+            }
+
+            /*Bio*/
+            if (!this.vaildText(this.bio)) {
+                this.errors.push('Invalid characters in Biography field.');
+                document.getElementsByName("bio")[0].style.backgroundColor = "red";
+            }
+
+            if (!this.errors.length) {
+                return true;/*No ERRORS! WOW! SO COOL! YOUR GREAT!*/
+            }
+
+        }
+        function vaildText(text) {
+            var re = /[A-Za-z0-9 ._^%$!~@,]/g;
+            return re.test(text);
+        }
+
+    
+        
+
+
     </script>
-    <script>
-        const mountedApp = app.mount("#app")
-    </script>
+
 </body>

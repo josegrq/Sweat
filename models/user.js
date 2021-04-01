@@ -3,13 +3,13 @@ const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema({
   name: {
-    first_name: {
+    firstName: {
       type: String,
       lowercase: true,
       required: true,
       trim: true,
     },
-    last_name: {
+    lastName: {
       type: String,
       lowercase: true,
       required: true,
@@ -18,7 +18,6 @@ const userSchema = mongoose.Schema({
   },
   username: {
     type: String,
-    lowercase: true,
     required: true,
     trim: true,
   },
@@ -29,7 +28,7 @@ const userSchema = mongoose.Schema({
     trim: true,
   },
   location: {
-      address: {
+      street: {
         type: String,
         lowercase: true,
         required: false,
@@ -68,7 +67,7 @@ const userSchema = mongoose.Schema({
     min: "0001-01-01",
     max: Date.now,
   },
-  security_questions: [
+  security_questions: 
     {
       question: {
         type: String,
@@ -83,7 +82,6 @@ const userSchema = mongoose.Schema({
         trim: true,
       },
     },
-  ],
   bio: {
     type: String,
     required: false,
