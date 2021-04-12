@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="http://localhost:3000/css/footer.css" />
     <link rel="stylesheet" href="http://localhost:3000/css/app.css" />
     <title>Sweat</title>
+    <script src="../public/scripts/app.js"></script>
   </head>
 
   <body>
@@ -40,10 +41,19 @@
           <form action=""><input type="text" placeholder="Search" /></form>
         </div>
       </div>
+      <div class="flash-messages">
+        <% if(flashMessages) { %> <% if(flashMessages.success) { %>
+        <div class="alert alert-success mb-0"><%= flashMessages.success %></div>
+        <% }else if(flashMessages.error) { %>
+        <div class="alert alert-danger mb-0"><%= flashMessages.error %></div>
+        <% }else if(flashMessages.warning) { %>
+        <div class="alert alert-warning mb-0"><%= flashMessages.warning %></div>
+        <% } %> <% } %>
+      </div>
       <!--<div class="header-title"></div>-->
       <div class="navigation-bar">
         <nav>
-          <a href="#"
+          <a href="/home"
             ><img
               src="http://localhost:3000/images/SweatLogo.png"
               class="website-logo"
@@ -51,75 +61,82 @@
           /></a>
           <ul class="nav-links">
             <li>
-              <a href="#"></a
-              ><button>
+              <a href="/home">
                 <img
                   src="http://localhost:3000/icons/home.png"
                   alt="home"
-                  class="icon"
-                /><span class="home-text"></span>
-              </button>
+                  class="icon" /><span class="home-text"></span
+              ></a>
             </li>
             <li>
-              <a href="#"></a
-              ><button>
+              <a href="#">
                 <img
                   src="http://localhost:3000/icons/notifications.png"
                   alt="notifications"
-                  class="icon"
-                /><span class="notifications-text"></span>
-              </button>
+                  class="icon" /><span class="notifications-text"></span
+              ></a>
             </li>
             <li>
-              <a href="#"></a
-              ><button>
+              <a href="#">
                 <img
                   src="http://localhost:3000/icons/messages.png"
                   alt="messages"
-                  class="icon"
-                /><span class="messages-text"></span>
-              </button>
+                  class="icon" /><span class="messages-text"></span
+              ></a>
             </li>
             <li>
-              <a href="#"></a
-              ><button>
-                <img
+              <a href="<%= `/users/${currentUser._id}` %>"
+                ><img
                   src="http://localhost:3000/icons/profile.png"
                   alt="profile"
-                  class="icon"
-                /><span class="profile-text"></span>
-              </button>
+                  class="icon" /><span class="profile-text"></span
+              ></a>
             </li>
             <li>
-              <a href="#"></a
-              ><button>
+              <a href="#">
                 <img
                   src="http://localhost:3000/icons/connections.png"
                   alt="connections"
-                  class="icon"
-                /><span class="connections-text"></span>
-              </button>
+                  class="icon" /><span class="connections-text"></span
+              ></a>
             </li>
             <li>
-              <a href="#"></a
-              ><button>
+              <a href="#">
                 <img
                   src="http://localhost:3000/icons/post.png"
                   alt="post"
-                  class="icon"
-                /><span class="post-text"></span>
-              </button>
+                  class="icon" /><span class="post-text"></span
+              ></a>
             </li>
           </ul>
         </nav>
-        <div class="other">
+        <div class="login-bar">
+          <% if(loggedIn) { %>
+
+          <div class="logged text-center">
+            <!--<p class="alert alert-info">
+              Logged in as
+              <a href="<%= `/users/${currentUser._id}` %>">
+                <%= `${currentUser.name.first_name}
+                ${currentUser.name.last_name}` %></a
+              >
+            </p>-->
+            <a class="btn btn-danger login-button" href="/users/logout"
+              >Log out</a
+            >
+          </div>
+          <% } else { %>
+          <a class="btn btn-primary" href="/users/login">Login</a>
+          <%}%>
+        </div>
+        <!--<div class="other">
           <a href="#"></a
           ><button>
             <img src="../icons/more.png" alt="more" class="icon" /><span
               class="more-text"
             ></span>
           </button>
-        </div>
+        </div>-->
       </div>
     </header>
     <%- body%>

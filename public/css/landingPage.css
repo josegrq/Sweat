@@ -21,7 +21,6 @@
   font-size: 20px;
   box-shadow: 2px 0px 10x 5px rgba(0, 0, 0, 0.25);
 }
-
 .nav-links {
   list-style: none;
 }
@@ -41,8 +40,7 @@
   margin: 15px 0px;
 }
 .navigation-bar li,
-a,
-button {
+a {
   text-decoration: none;
   color: #9ba4b4;
 }
@@ -67,8 +65,8 @@ button {
 .more-text::before {
   content: " More";
 }
-.nav-links li button,
-.other button {
+.nav-links li a,
+.other a {
   border-radius: 25px;
   background-color: transparent;
   transition: all ease 0.5s;
@@ -80,8 +78,8 @@ button {
 .other {
   text-align: center;
 }
-.nav-links li button:hover,
-.other button:hover {
+.nav-links li a:hover,
+.other a:hover {
   background-color: #14274e;
   text-decoration: none;
   text-decoration-style: none;

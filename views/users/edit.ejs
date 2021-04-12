@@ -1,0 +1,242 @@
+<div class="container main-content">
+  <div class="col-sm-6 mx-auto text-center">
+    <p>Update your information below!</p>
+    <form action="<%= `/users/${user._id}/update?_method=PUT` %>" method="POST">
+      <!--Firstname-->
+      <div class="form-group row">
+        <input
+          class="col-sm-12 form-control mx-auto"
+          id="txtFirstName"
+          type="text"
+          placeholder="First Name"
+          name="firstName"
+          value="<%= user.name.firstName %>"
+          required
+        />
+      </div>
+      <!--Lastname-->
+      <div class="form-group row">
+        <input
+          id="txtLastName"
+          class="col-sm-12 form-control mx-auto"
+          type="text"
+          placeholder="Last Name"
+          name="lastName"
+          value="<%= user.name.lastName %>"
+          required
+        />
+      </div>
+      <!--Username-->
+      <div class="form-group row">
+        <input
+          id="txtUserName"
+          class="col-sm-12 form-control mx-auto"
+          type="text"
+          placeholder="Username"
+          name="username"
+          value="<%= user.username %>"
+          required
+        />
+      </div>
+
+      <!--Email-->
+      <div class="form-group row">
+        <input
+          id="txtEmail"
+          class="col-sm-6 form-control mx-auto"
+          type="email"
+          placeholder="Email"
+          value="<%= user.email %>"
+          name="email"
+          required
+        />
+        <input
+          id="txtConfirmEmail"
+          class="col-sm-6 form-control mx-auto"
+          type="email"
+          placeholder="Confirm Email"
+          value="<%= user.email %>"
+          name="confirmEmail"
+          required
+        />
+      </div>
+
+      <!--Gender-->
+      <div class="form-group row">
+        <label class="form-check-label col-sm-2 text-right"
+          ><b>Gender:</b>
+        </label>
+        <div class="col-sm-10 text-left">
+          <div class="form-check">
+            <% if(user.gender == 'male') { %>
+            <input
+              type="radio"
+              id="rbMale"
+              name="gender"
+              value="male"
+              class="form-check-input"
+              checked
+            />
+            <% } else {%>
+            <input
+              type="radio"
+              id="rbMale"
+              name="gender"
+              value="male"
+              class="form-check-input"
+            /><% }%>
+            <label for="rbMale" class="form-check-label"><b>Male</b></label>
+          </div>
+          <div class="form-check">
+            <% if(user.gender == 'female') { %>
+            <input
+              type="radio"
+              id="rbFemale"
+              name="gender"
+              value="female"
+              checked
+              class="form-check-input"
+            />
+            <% } else {%>
+            <input
+              type="radio"
+              id="rbFemale"
+              name="gender"
+              value="female"
+              class="form-check-input"
+            /><% }%>
+            <label for="rbFemale" class="form-check-label"><b>Female</b></label>
+          </div>
+          <div class="form-check">
+            <% if(user.gender == 'other') { %>
+            <input
+              type="radio"
+              id="rbOther"
+              name="gender"
+              checked
+              value="other"
+              class="form-check-input"
+            />
+            <% } else {%>
+            <input
+              type="radio"
+              id="rbOther"
+              name="gender"
+              value="other"
+              class="form-check-input"
+            /><% }%>
+            <label for="rbOther" class="form-check-label"><b>Other</b></label>
+          </div>
+        </div>
+      </div>
+
+      <!--Address-->
+      <div class="form-group row">
+        <input
+          class="col-sm-12 mx-auto form-control"
+          type="txt"
+          id="txtStreet"
+          name="street"
+          value="<%= user.location.street %>"
+          placeholder="Street"
+        />
+      </div>
+      <div class="form-group row">
+        <input
+          class="col-sm-4 mx-auto form-control"
+          type="txt"
+          id="txtCity"
+          name="city"
+          value="<%= user.location.city %>"
+          placeholder="City"
+        />
+        <input
+          class="col-sm-3 mx-auto form-control"
+          type="txt"
+          id="txtState"
+          name="state"
+          value="<%= user.location.state %>"
+          placeholder="State"
+        />
+        <input
+          class="col-sm-3 mx-auto form-control"
+          type="txt"
+          id="txtZipcode"
+          name="zipCode"
+          value="<%= user.location.zipCode %>"
+          placeholder="ZIP Code"
+          pattern="[0-9]{5}"
+        />
+      </div>
+      <br />
+
+      <!--Security Questions-->
+      <div class="form-group">
+        <div class="row">
+          <label
+            class="col-sm-5 mx-auto form-label text-left"
+            for="securityQuestions"
+            ><b>Security Questions:*</b></label
+          >
+          <select
+            class="col-sm-7 mx-auto form-control"
+            name="question"
+            id="securityQuestions"
+            required
+          >
+            <% if(user.security_questions.question == "") {%>
+            <option selected value=""></option>
+            <% } else { %>
+            <option value=""></option>
+            <option value="What was your first place of employment?">
+              What was your first place of employment?
+            </option>
+            <option value="What was your schools mascot?">
+              What was your schools mascot?
+            </option>
+            <option value="What is your favorite team?">
+              What is your favorite team?
+            </option>
+            <option value="What is your favorite workout?">
+              What is your favorite workout?
+            </option>
+            <% } %>
+          </select>
+        </div>
+        <div class="row">
+          <input
+            class="col-sm-12 form-control mx-auto"
+            type="text"
+            id="securityAnswers"
+            name="answer"
+            class="form-control"
+            value="<%= user.security_questions.answer %>"
+            placeholder="Answer"
+            required
+          />
+        </div>
+      </div>
+
+      <!--Bio-->
+      <div class="form-group row">
+        <textarea
+          id="txtBio"
+          name="bio"
+          rows="4"
+          cols="50"
+          class="form-control col-sm-12"
+          placeholder="Tell us about yourself"
+        ></textarea>
+      </div>
+
+      <div class="form-buttons row">
+        <button class="btn btn-primary col-sm-3 mx-auto" type="submit">
+          Update
+        </button>
+        <button class="btn btn-secondary col-sm-3 mx-auto" type="reset">
+          Reset
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

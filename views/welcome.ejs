@@ -18,6 +18,16 @@
   </head>
 
   <body>
+    <header></header>
+    <div class="flash-messages">
+      <% if(flashMessages) { %> <% if(flashMessages.success) { %>
+      <div class="alert alert-success mb-0"><%= flashMessages.success %></div>
+      <% }else if(flashMessages.error) { %>
+      <div class="alert alert-danger mb-0"><%= flashMessages.error %></div>
+      <% }else if(flashMessages.warning) { %>
+      <div class="alert alert-warning mb-0"><%= flashMessages.warning %></div>
+      <% } %> <% } %>
+    </div>
     <section class="main-content">
       <div class="row h-100">
         <!--Logo and Message-->

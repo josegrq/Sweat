@@ -16,7 +16,11 @@ body {
 .main-content {
   flex: 1;
 }
-
+.vertically-centered {
+}
+.password-change a:hover {
+  color: #fff;
+}
 @media only screen and (max-width: 600px) {
   body {
     padding-left: 140px;

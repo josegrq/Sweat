@@ -1,33 +1,34 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const passportLocalMongoose = require("passport-local-mongoose");
 
-const userSchema = mongoose.Schema({
-  name: {
-    firstName: {
+const userSchema = mongoose.Schema(
+  {
+    name: {
+      firstName: {
+        type: String,
+        lowercase: true,
+        required: true,
+        trim: true,
+      },
+      lastName: {
+        type: String,
+        lowercase: true,
+        required: true,
+        trim: true,
+      },
+    },
+    username: {
       type: String,
-      lowercase: true,
       required: true,
       trim: true,
     },
-    lastName: {
+    gender: {
       type: String,
       lowercase: true,
-      required: true,
+      required: false,
       trim: true,
     },
-  },
-  username: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  gender: {
-    type: String,
-    lowercase: true,
-    required: false,
-    trim: true,
-  },
-  location: {
+    location: {
       street: {
         type: String,
         lowercase: true,
@@ -48,27 +49,23 @@ const userSchema = mongoose.Schema({
       },
       zipCode: {
         type: Number,
-        required: false,
-        trim: true,
+        required: true,
+        min: [10000, "ZIP code too short"],
+        max: 99999,
       },
-  },
-  email: {
-    type: String,
-    lowercase: true,
-    required: true,
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  dob: {
-    type: Date,
-    min: "0001-01-01",
-    max: Date.now,
-  },
-  security_questions: 
-    {
+    },
+    email: {
+      type: String,
+      lowercase: true,
+      required: true,
+      trim: true,
+    },
+    dob: {
+      type: Date,
+      min: "0001-01-01",
+      max: Date.now,
+    },
+    security_questions: {
       question: {
         type: String,
         lowercase: true,
@@ -82,35 +79,16 @@ const userSchema = mongoose.Schema({
         trim: true,
       },
     },
-  bio: {
-    type: String,
-    required: false,
-    trim: true,
+    bio: {
+      type: String,
+      required: false,
+      trim: true,
+    },
   },
+  { timestamp: true }
+);
+
+userSchema.plugin(passportLocalMongoose, {
+  usernameField: "email",
 });
-
-/*userSchema.pre("save", function(next) {
-  let user = this;
-  bcrypt
-    .hash(user.password, 10)
-    .then((hashedPassword) => {
-      user.password = hashedPassword;
-      next();
-    })
-    .catch((error) => {
-      console.log(`Error hashing password: ${error.message}`);
-      next(error);
-    });
-});*/
-
-userSchema.methods.comparePassword = async (password) => {
-  let user = this;
-  //Will return true if equal
-  //return bcrypt.compare(password, user.password);
-  console.log("JOSE");
-  console.log(user);
-  console.log(password);
-  console.log(user.password === password);
-  return user.password === password;
-};
 module.exports = mongoose.model("User", userSchema);

@@ -7,12 +7,15 @@ const mongoose = require("mongoose");
 //const indexRoutes = require("./route/index");
 //const userRoutes = require("./route/user");
 const methodOverride = require("method-override");
-//const expressValidator = require("express-validator");
 
-//Flash Messages
+//Flash Messages and Authentication
 const session = require("express-session");
 const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
+const expressValidator = require("express-validator");
+const passport = require("passport");
+const User = require("./models/user");
+const { serializeUser } = require("passport");
 
 //Configurations to using coookie-parser
 sess = {
@@ -26,6 +29,7 @@ sess = {
 mongoose
   .connect("mongodb://localhost:27017/Sweat", {
     useNewUrlParser: true,
+    useFindAndModify: true,
   })
   .then(() => {
     console.log("Connected to DB.");
@@ -38,14 +42,20 @@ app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
 router.use(layouts);
 
-/*
-app.get("/", usersController.getWelcomePage);
-app.get("/signup", usersController.getSignUpPage);
-app.get("/login", usersController.getLoginPage);*/
-
 //MIDDLEWARE
 //PRE-PROCESSING REQUESTS
 router.use(express.static("public"));
+//We are parsing URL encoded data from the body
+app.use(
+  express.urlencoded({
+    extended: false,
+  })
+);
+//Interpret body and query string data as JSON
+router.use(express.json());
+router.use(methodOverride("_method", { methods: ["POST", "GET"] }));
+router.use(expressValidator());
+
 router.use(cookieParser("My-53cr3t_C0d3"));
 router.use(
   session({
@@ -58,33 +68,61 @@ router.use(
   })
 );
 router.use(flash());
+
+//We use passport and session for messages
+router.use(passport.initialize());
+router.use(passport.session());
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//We let passport be in charge of letting us know if user is logged in
 router.use((request, response, next) => {
   response.locals.flashMessages = request.flash();
+  response.locals.loggedIn = request.isAuthenticated();
+  response.locals.currentUser = request.user;
   next();
 });
-
-//We are parsing URL encoded data from the body
-app.use(
-  express.urlencoded({
-    extended: false,
-  })
-);
-//Interpret body and query string data as JSON
-router.use(express.json());
-router.use(methodOverride("_method", { methods: ["POST", "GET"] }));
-//router.use(expressValidator());
 
 //ROUTES GO HERE
 router.get("/", usersController.getWelcomePage);
 router.get("/users/signup", usersController.getSignUpPage);
-router.post("/users/create", usersController.create);
+router.post(
+  "/users/create",
+  usersController.validate,
+  usersController.create,
+  usersController.redirectView
+);
 router.get("/users/login", usersController.getLoginPage);
 router.post(
   "/users/login",
   usersController.authenticate,
   usersController.redirectView
 );
+router.get(
+  "/users/logout",
+  usersController.logout,
+  usersController.redirectView
+);
+router.get("/users/:id/edit", usersController.edit);
+//router.put(
+//  "/users/:id/update",
+//  usersController.validate,
+//  usersController.update,
+//  usersController.redirectView
+//);
 router.get("/users/:id", usersController.show, usersController.showView);
+router.delete(
+  "/users/:id/delete",
+  usersController.delete,
+  usersController.redirectView
+);
+router.get(
+  "/home",
+  usersController.isAuthenticated,
+  homeController.getHomePage
+);
+//router.get("/users/:id", usersController.show, usersController.showView);
 //app.use("/", indexRoutes);
 //app.use("/users", userRoutes);
 
