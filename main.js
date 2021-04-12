@@ -122,9 +122,6 @@ router.get(
   usersController.isAuthenticated,
   homeController.getHomePage
 );
-//router.get("/users/:id", usersController.show, usersController.showView);
-//app.use("/", indexRoutes);
-//app.use("/users", userRoutes);
 
 //PAGE ERROR HANDLING
 router.use(errorController.logErrors);
