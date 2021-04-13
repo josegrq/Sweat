@@ -1,7 +1,24 @@
 const { request } = require("express");
 const User = require("../models/user");
 const passport = require("passport");
-
+const getParams = (body) => {
+  return {
+    name: {
+      firstName: body.firstName,
+      lastName: body.lastName,
+    },
+    username: body.username,
+    email: body.email,
+    gender: body.gender,
+    location: {
+      street: body.street,
+      city: body.city,
+      state: body.state,
+      zipCode: parseInt(body.zipCode),
+    },
+    bio: body.bio,
+  };
+};
 module.exports = {
   getWelcomePage: (request, response) => {
     response.render("welcome", { layout: false });
@@ -10,11 +27,6 @@ module.exports = {
   getSignUpPage: (request, response) => {
     response.render("users/signup", { layout: false });
   },
-  //To be implemented
-  //CREATE
-  //new: (request, response, next) => {
-  //  response.render("users/new");
-  //},
   create: (request, response, next) => {
     if (request.skip) {
       return next();
@@ -127,20 +139,94 @@ module.exports = {
     request.getValidationResult().then((error) => {
       //ERRORS
       if (!error.isEmpty()) {
-        console.log("Jose 1");
         let messages = error.array().map((e) => e.msg);
-        console.log("ERRORS");
-        console.log(error.array());
         request.flash("error", messages.join(" and "));
         request.skip = true;
         response.locals.redirect = "/users/signup";
-        console.log("Jose 2");
         next();
       } else {
-        console.log("Jose 3");
         next();
       }
     });
+  },
+  validateUpdate: (request, response, next) => {
+    const userID = request.params.id;
+    request
+      .sanitizeBody("email")
+      .normalizeEmail({
+        all_lowercase: true,
+      })
+      .trim();
+
+    request
+      .check("firstName", "Invalid first name (check invalid characters)")
+      .trim()
+      .notEmpty()
+      .isAlpha()
+      .isAscii();
+    request
+      .check("lastName", "Invalid last name (check invalid characters)")
+      .trim()
+      .notEmpty()
+      .isAlpha()
+      .isAscii();
+    request
+      .check("username", "Invalid username (Only letters and/or numbers)")
+      .trim()
+      .notEmpty()
+      .isAlphanumeric();
+    request
+      .check("email", "Email is not valid")
+      .notEmpty()
+      .normalizeEmail()
+      .isEmail();
+    //Not needed
+    //request.check("gender", "");
+    request.check("street", "Invalid street").matches(/^[a-zA-Z0-9\s,'-]*$/);
+    request.check("city", "Invalid City").trim().isAlpha();
+    request.check("state", "Invalid state").trim().isAlpha();
+    request
+      .check("zipCode", "ZIP code is not valid")
+      .notEmpty()
+      .isInt()
+      .isLength({
+        min: 5,
+        max: 5,
+      });
+    request
+      .check("bio", "May only contain letters, numbers and/or spaces")
+      .trim()
+      .matches(/^[a-zA-Z0-9\s,'-]*$/);
+    request.getValidationResult().then((error) => {
+      //ERRORS
+      if (!error.isEmpty()) {
+        let messages = error.array().map((e) => e.msg);
+        request.flash("error", messages.join(" and "));
+        request.skip = true;
+        response.locals.redirect = `/users/${userID}/edit`;
+        next();
+      } else {
+        next();
+      }
+    });
+  },
+  update: (request, response, next) => {
+    if (request.skip) {
+      return next();
+    }
+    let userId = request.params.id;
+    let userParams = getParams(request.body);
+    User.findByIdAndUpdate(userId, userParams)
+      .then((user) => {
+        response.locals.redirect = `/users/${userId}`;
+        request.flash("success", "Your account has been successfully updated!");
+        response.locals.user = user;
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next(error);
+      });
   },
   //LOGIN methods
   getLoginPage: (request, response) => {
@@ -183,6 +269,66 @@ module.exports = {
         console.log(error);
         next(error);
       });
+  },
+  validatePasswordChange: (request, response, next) => {
+    const confirmPassword = request.body.new_password;
+    const userId = request.params.id;
+    request
+      .check(
+        "new_password",
+        "Password must be at least 8 characters long, have at least one uppercase and lowercase letter, and must include a special character."
+      )
+      .notEmpty()
+      .matches(
+        /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/
+      );
+    request
+      .check("confirm_new_password", "Passwords are not the same")
+      .equals(confirmPassword);
+
+    request.getValidationResult().then((error) => {
+      //ERRORS
+      if (!error.isEmpty()) {
+        let messages = error.array().map((e) => e.msg);
+        request.flash("error", messages.join(" and "));
+        request.skip = true;
+        response.locals.redirect = `/users/${userId}/change`;
+        next();
+      } else {
+        next();
+      }
+    });
+  },
+  change: (request, response, next) => {
+    let userId = request.params.id;
+    User.findById(userId)
+      .then((user) => {
+        response.render("users/passwordChange", { user: user });
+      })
+      .catch((error) => {
+        console.log(error);
+        next(error);
+      });
+  },
+  changePassword: (request, response, next) => {
+    if (request.skip) {
+      return next();
+    }
+    let userId = request.params.id;
+    User.findById(userId).then((user) => {
+      user
+        .changePassword(request.body.old_password, request.body.new_password)
+        .then((user) => {
+          request.flash("success", "Old Password was successfully changed");
+          response.locals.redirect = `/users/${userId}`;
+          next();
+        })
+        .catch((error) => {
+          request.flash("error", "Old Password was not entered correctly");
+          response.locals.redirect = `/users/${userId}/change`;
+          next();
+        });
+    });
   },
   delete: (request, response, next) => {
     let userId = request.params.id;

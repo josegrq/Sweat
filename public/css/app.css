@@ -5,18 +5,26 @@
   font-family: Arial;
 }
 
-body {
+/*body {
   padding-left: 300px;
   min-height: 100vh;
-  min-width: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}*/
+
+.content-screen {
+  min-height: calc(100vh - 111px);
+  width: 100%;
+  display: flex;
+  background-color: #9ba4b4;
+  align-items: center;
+  justify-content: center;
 }
 
 .main-content {
   flex: 1;
-}
-.vertically-centered {
 }
 .password-change a:hover {
   color: #fff;

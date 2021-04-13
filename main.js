@@ -105,12 +105,19 @@ router.get(
   usersController.redirectView
 );
 router.get("/users/:id/edit", usersController.edit);
-//router.put(
-//  "/users/:id/update",
-//  usersController.validate,
-//  usersController.update,
-//  usersController.redirectView
-//);
+router.get("/users/:id/change", usersController.change);
+router.put(
+  "/users/:id/change",
+  usersController.validatePasswordChange,
+  usersController.changePassword,
+  usersController.redirectView
+);
+router.put(
+  "/users/:id/update",
+  usersController.validateUpdate,
+  usersController.update,
+  usersController.redirectView
+);
 router.get("/users/:id", usersController.show, usersController.showView);
 router.delete(
   "/users/:id/delete",

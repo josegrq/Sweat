@@ -168,54 +168,6 @@
           pattern="[0-9]{5}"
         />
       </div>
-      <br />
-
-      <!--Security Questions-->
-      <div class="form-group">
-        <div class="row">
-          <label
-            class="col-sm-5 mx-auto form-label text-left"
-            for="securityQuestions"
-            ><b>Security Questions:*</b></label
-          >
-          <select
-            class="col-sm-7 mx-auto form-control"
-            name="question"
-            id="securityQuestions"
-            required
-          >
-            <% if(user.security_questions.question == "") {%>
-            <option selected value=""></option>
-            <% } else { %>
-            <option value=""></option>
-            <option value="What was your first place of employment?">
-              What was your first place of employment?
-            </option>
-            <option value="What was your schools mascot?">
-              What was your schools mascot?
-            </option>
-            <option value="What is your favorite team?">
-              What is your favorite team?
-            </option>
-            <option value="What is your favorite workout?">
-              What is your favorite workout?
-            </option>
-            <% } %>
-          </select>
-        </div>
-        <div class="row">
-          <input
-            class="col-sm-12 form-control mx-auto"
-            type="text"
-            id="securityAnswers"
-            name="answer"
-            class="form-control"
-            value="<%= user.security_questions.answer %>"
-            placeholder="Answer"
-            required
-          />
-        </div>
-      </div>
 
       <!--Bio-->
       <div class="form-group row">
@@ -226,7 +178,9 @@
           cols="50"
           class="form-control col-sm-12"
           placeholder="Tell us about yourself"
-        ></textarea>
+        >
+<%= user.bio %></textarea
+        >
       </div>
 
       <div class="form-buttons row">
