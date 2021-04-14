@@ -16,19 +16,16 @@ After you have clone the reposory into a local folder, run the command below to 
 Jose Ramirez:
 As mentioned in Assignment 1, we decided to show a welcome page to the user as they come to our site. This page will allow the user to choose login or sign up for a new acoount.
 
-    I worked on setting up the initial app and structuring the directory. Since we initially created plain HTML files for Assignment 1, I also worked on migrating them to work with Node.js and Express.js.
+    I worked on the following: (UPDATED 04-13-2021)
+     - Updated User model to make them more robust
+     - Added CRUD actions for users and restructure web app to follow the structure discussed in Week 10.
+     - Added sessions and cookies
+     - Used passport for handling user sign-up and sign-in ass well as password change
+     - Used express-validator to reimplement validations and used sessions to show error messages to users
+     - Extended views to show if user has logged in, and also handled user logouts
+     - Added proper error handling.
 
-    I have worked on the following files:
-        - welcome.ejs
-        - layout.ejs
-        - login.ejs
-        - seed.js
-
-    We both worked on:
-        - controllers
-        - home.ejs (This was re-designed to make it more responsive)
-
-    To allow the login page to display useful feedback to the user I took advantage of flash messages which we have implemented throughout the app and to stykle them the alert class from bootstrap was used. This allowed the app to have a clean look. The messages are set to appear ONLY if there is a message for the user and appears at the top of the page.
+    To allow the login page to display useful feedback to the user I took advantage of flash messages which we have implemented throughout the app and to style them the alert class from bootstrap was used. This allowed the app to have a clean look. The messages are set to appear ONLY if there is a message for the user and appears at the top of the page.
 
     The layout.ejs file was re-designed leaving only the main nav bar and header with search bar to allow more space for user content. The user content contaier was also made more responsive with different screen sizes.
 
@@ -39,7 +36,6 @@ As mentioned in Assignment 1, we decided to show a welcome page to the user as t
     The controllers, specially the usersController was implemented to fit the CRUD structure.
 
     All the design choices made were made to keep it simple for the user to navigate throught the site.
-
 
 Kyle VanSteelandt:
 
@@ -56,14 +52,9 @@ Kyle VanSteelandt:
     So what the form currently can do:
         -It will use the Browser to check if all the required fields are completed, if not it will bring the user to the first required field and ask that it be completed.
         -All the field that have a invalid character or were blank will turn red
-        -If all fields are filled then the new User is added to the database and can login to the site 
-        
+        -If all fields are filled then the new User is added to the database and can login to the site
+
     Issues I am having:
         -While some of the validation functions work the compare password does not. The validation goes through as long as both password fields are filled.
 
         Any feedback on how I can do this properly is welcome.
-    
-
-
-
-    
