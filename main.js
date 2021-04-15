@@ -150,7 +150,8 @@ router.get(
 );
 
 //User stories
-router.get("/stories/showFeed", storyController.index, storyController.indexView);
+//router.get("/stories/showFeed", storyController.index, storyController.indexView);
+router.get("/stories", storyController.index, storyController.indexView);
 router.get("/stories/:id/show", storyController.show, storyController.showView);
 router.get("/stories/:id/showFeed", storyController.index, storyController.indexView);
 router.get("/stories/:id/story", storyController.new);

@@ -11,8 +11,7 @@ const getParams = (body) => {
             data: fs.readFileSync(path.join(__dirname, '../public/uploads/' + req.file.filename)),
             contentType: 'image/png'
         },
-        madeSweaty: [req.body.madeSweaty],
-        authorId: req.body.authorId,
+        followers: [req.body.followers],
         author: req.body.author,
     }
 };
@@ -39,9 +38,8 @@ module.exports = {
                 data: fs.readFileSync(path.join(__dirname, '../public/uploads/' + req.file.filename)),
                 contentType: 'image/png'
             },
-            madeSweaty: [req.body.madeSweaty],
-            authorId: req.body.authorId,
-            author: req.body.author,
+            followers: [],
+            author: req.user,
         });
         newStory
             .save()
@@ -55,22 +53,8 @@ module.exports = {
     new: (req, res) => {
         res.render("stories/story");
     },
-
-
-    //new: function (req, res, next) {
-    //    let authorId = req.params.id; 
-    //    console.log(authorId);
-    //    console.log(req.params);
-    //    Story.findById(authorId)
-    //        .then((story) => {
-    //            res.render(`users/story`, {authorId: authorId});
-    //        })
-    //        .catch((error) => {
-    //            console.log(error);
-    //            next(error);
-    //        });
-    //},
     show: (req, res, next) => {
+        console.log("req:  ", req);
         let storyId = req.params.id;
         Story.findById(storyId)
             .then(story => {
@@ -83,30 +67,34 @@ module.exports = {
             });
     },
     showView: (req, res) => {
-        res.render("stories/:id/show");
+        res.render("stories/show");
     },
     create: (req, res, next) => {
         if (req.skip) {
             return next();
         }
-        console.log(req.body);
-        console.log(req.file);
+        //console.log(req);
+        //console.log("req.user", req.user._id);
+        //console.log("req.user.username", req.user.username);
+        //console.log("req.body.title", req.body.title);
+        //console.log(req.file);
+        //console.log("req.body", req.body);   
         let newStory = {
-            authorId: req.body.authorId,
             title: req.body.title,
             content: req.body.content,
             img: {
                 data: fs.readFileSync(path.join(__dirname, '../public/uploads/' + req.file.filename)),
                 contentType: 'image/png'
             },
-            madeSweaty: [req.body.madeSweaty],
-            author: req.body.author
+            followers: [],
+            author: req.user
         };
         Story.create(newStory)
             .then(story => {
-                console.log(story.author);
-                console.log(newStory.content);
-                res.locals.redirect = "/stories/show/";
+                //console.log("story.author: ", story.author);
+                //console.log("story:  ", story.id);  
+                //console.log("story:  ", story);          
+                res.locals.redirect = "/stories";
                 res.locals.story = story;
                 next();
             })
@@ -115,11 +103,10 @@ module.exports = {
                 next(error);
             });
     },
-    redirectView: (request, response, next) => {
-        let newPath = response.locals.redirect;
-        if (newPath) {
-            response.redirect(newPath);
-        }
-    },
+    redirectView: (req, res, next) => {
+        let redirectPath = res.locals.redirect;
+        if (redirectPath !== undefined) res.redirect(redirectPath);
+        else next();
+      }
 
 };

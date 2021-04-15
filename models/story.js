@@ -17,13 +17,13 @@ const storySchema = mongoose.Schema(
             data: Buffer,
             contentType: String
         },
-        madeSweaty: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }
     },
-    { timestamp: true }
+    { timestamps: true }
 );
 
 storySchema.methods.getInfo = function () {
