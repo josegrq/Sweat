@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="http://localhost:3000/css/footer.css" />
     <link rel="stylesheet" href="http://localhost:3000/css/app.css" />
     <title>Sweat</title>
-    <script src="../public/scripts/app.js"></script>
+    <!--<script src="../public/scripts/app.js"></script>-->
   </head>
 
   <body>
@@ -101,7 +101,7 @@
               ></a>
             </li>
             <li>
-              <a href="#">
+              <a href="<%= `/stories/${currentUser._id}/story` %>">
                 <img
                   src="http://localhost:3000/icons/post.png"
                   alt="post"

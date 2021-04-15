@@ -1,0 +1,8 @@
+<div class="body" id="randomContent">
+    <!-- The feed that the User sees -->
+    <div class="content">
+        <% stories.forEach(story=> { %>
+            <%- include ('./stories/show') %>
+            <% }); %>
+    </div>
+</div>

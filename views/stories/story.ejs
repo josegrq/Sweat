@@ -1,0 +1,26 @@
+<div class="body" id="randomContent">
+    <!-- The feed that the User sees -->
+        <div class="container-fluid">
+            <form action="/stories/story/create/" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Write a Sweaty story! </label>
+                    <div type="text" name="author" id="author" value="<%= `${currentUser.id}` %>"><%= `${currentUser.name}` %></div>
+                    <br />
+                    <label>Title</label>
+                    <input name="title" class="form-control" placeholder="Title" required />
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea name="content" class="form-control" placeholder="Write your sweaty story here~"
+                        required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Image</label>
+                    <input name="image" id="image" type="file" />
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+</div>

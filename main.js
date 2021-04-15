@@ -1,5 +1,6 @@
 const homeController = require("./controllers/homeController");
 const errorController = require("./controllers/errorController");
+const storyController = require("./controllers/storyController");
 const usersController = require("./controllers/usersController");
 const express = require("express");
 const layouts = require("express-ejs-layouts");
@@ -7,7 +8,7 @@ const mongoose = require("mongoose");
 //const indexRoutes = require("./route/index");
 //const userRoutes = require("./route/user");
 const methodOverride = require("method-override");
-
+//const bodyParser = require('body-parser');
 //Flash Messages and Authentication
 const session = require("express-session");
 const flash = require("connect-flash");
@@ -16,6 +17,9 @@ const expressValidator = require("express-validator");
 const passport = require("passport");
 const User = require("./models/user");
 const { serializeUser } = require("passport");
+var multer = require('multer');
+
+
 
 //Configurations to using coookie-parser
 sess = {
@@ -35,6 +39,9 @@ mongoose
     console.log("Connected to DB.");
   })
   .catch((error) => console.log("Unable to connect to DB: ", error));
+
+//app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.json());
 
 const app = express();
 const router = express.Router();
@@ -68,6 +75,18 @@ router.use(
   })
 );
 router.use(flash());
+
+//Set up Multer for Storage of posts
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, './public/uploads')
+  },
+  filename: (req, file, cb) => {
+      cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+var upload = multer({ storage: storage });
+
 
 //We use passport and session for messages
 router.use(passport.initialize());
@@ -128,6 +147,17 @@ router.get(
   "/home",
   usersController.isAuthenticated,
   homeController.getHomePage
+);
+
+//User stories
+router.get("/stories/showFeed", storyController.index, storyController.indexView);
+router.get("/stories/:id/show", storyController.show, storyController.showView);
+router.get("/stories/:id/showFeed", storyController.index, storyController.indexView);
+router.get("/stories/:id/story", storyController.new);
+router.post("/stories/story/create",
+  upload.single('image'),
+  storyController.create,
+  storyController.redirectView
 );
 
 //PAGE ERROR HANDLING
