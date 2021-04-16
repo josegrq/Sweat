@@ -87,12 +87,6 @@ Kyle VanSteelandt:
     yet.
 
     Current issues, Things that need more work:
-    Stories currently do not get added to the User Stories array. I believe this is
-    just an issue with how I am trying to do it but I can't see to get it working
-    properly without it crashing.
     Needs more testing with multiple users posts but since I was having trouble 
     getting them to push into the Stories array I haven't been able to really look
     at this.
-    For whatever reason the Stories Schema does not like that the User.name is a
-    thing, it doesn't allow me to look up the username which probably has the same
-    sort of solution as the empty array.

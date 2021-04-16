@@ -121,7 +121,7 @@ module.exports = {
         //console.log(req);
         //console.log("req.user", req.user._id);
         //console.log("req.user.username", req.user.username);
-        //console.log("req.body.title", req.body.title);
+        //console.log("req.body", req.body);
         //console.log(req.file);
         //console.log("req.body", req.body); 
         let newStory = {
@@ -135,13 +135,12 @@ module.exports = {
             author: req.user
         };
         Story.create(newStory)
-            .then(story => {
-                console.log("req.user.Stories: ", req.user.Stories);
-                //console.log("story:  ", story.id);  
+            .then(story => {         
+                console.log("story:  ", story.id);  
                 //console.log("story:  ", story);
-                res.locals.redirect = "/stories";
+                res.locals.redirect = `/stories`;
                 res.locals.story = story;
-                 console.log("story", story)
+                console.log("res locals", res.locals)
                 next();
             })
             .catch(error => {
@@ -191,6 +190,22 @@ module.exports = {
             console.log(error);
             next(error);
           });
+    },
+    updateStories: (req, res) => {  
+      let storyID = req.params.id;
+      let storyParams = getParams(req.body);
+      console.log("request ", req.params);
+      User.findByIdAndUpdate(req.user._id,
+        { $push: { story: storyID } },
+        { safe: true, upsert: true },
+        function (err, doc) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(Stories);
+          }
+        }
+      );
     },
     redirectView: (req, res, next) => {
         let redirectPath = res.locals.redirect;
