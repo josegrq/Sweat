@@ -168,7 +168,12 @@ router.put(
   storyController.update,
   storyController.redirectView
 );
-
+//Story delete
+router.delete(
+  "/stories/:id/delete",
+  storyController.delete,
+  storyController.redirectView
+);
 //PAGE ERROR HANDLING
 router.use(errorController.logErrors);
 router.use(errorController.pageNotFoundError);
