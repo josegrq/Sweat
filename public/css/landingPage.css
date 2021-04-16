@@ -321,6 +321,9 @@ a {
   .post-text::before {
     content: " Post";
   }
+  .trending-text::before{
+    content: " Trending";
+  }
   .more-text::before {
     content: " More";
   }
@@ -391,13 +394,28 @@ a {
 }
 
 /* Page content */
+.container{
+  width: 75%;
+}
 .content {
   padding: 16px;
   width: 80%;
   margin: 0 auto;
   text-align: center;
 }
-.btnReply button {
+.btnEdit button {
+  color: black;
+  padding: 2px 5px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.btnFollow button {
+  color: black;
+  padding: 2px 5px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.btnDelete button {
   color: black;
   padding: 2px 5px;
   border-radius: 10px;
@@ -434,7 +452,9 @@ a {
   background-color: #394867;
   color: #9ba4b4;
   padding: 3%;
+  text-align: center;
 }
+
 /*holds all the content boxes*/
 .content {
   margin: 0 auto;

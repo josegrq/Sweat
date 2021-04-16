@@ -69,6 +69,28 @@ module.exports = {
     showView: (req, res) => {
         res.render("stories/show");
     },
+    validate: (request, response, next) => {
+        request
+        .check("title", "Invalid title (check invalid characters)")
+        .notEmpty()
+        .matches(/^[a-zA-Z0-9\s,'-]*$/);
+        request
+        .check("content", "Invalid content (check invalid characters in content field)")
+        .notEmpty()
+        .matches(/^[a-zA-Z0-9\s,'-]*$/);
+        request.getValidationResult().then((error) => {
+            //ERRORS
+            if (!error.isEmpty()) {
+              let messages = error.array().map((e) => e.msg);
+              request.flash("error", messages.join(" and "));
+              request.skip = true;
+              response.locals.redirect = `/stories/${currentUser.id}/story`;
+              next();
+            } else {
+              next();
+            }
+          });
+    },
     create: (req, res, next) => {
         if (req.skip) {
             return next();
@@ -78,7 +100,7 @@ module.exports = {
         //console.log("req.user.username", req.user.username);
         //console.log("req.body.title", req.body.title);
         //console.log(req.file);
-        //console.log("req.body", req.body);   
+        //console.log("req.body", req.body); 
         let newStory = {
             title: req.body.title,
             content: req.body.content,
@@ -91,11 +113,12 @@ module.exports = {
         };
         Story.create(newStory)
             .then(story => {
-                //console.log("story.author: ", story.author);
+                console.log("req.user.Stories: ", req.user.Stories);
                 //console.log("story:  ", story.id);  
-                //console.log("story:  ", story);          
+                //console.log("story:  ", story);
                 res.locals.redirect = "/stories";
                 res.locals.story = story;
+                 console.log("story", story)
                 next();
             })
             .catch(error => {

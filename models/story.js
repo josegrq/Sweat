@@ -15,7 +15,7 @@ const storySchema = mongoose.Schema(
         },
         img: {
             data: Buffer,
-            contentType: String
+            contentType: String,
         },
         followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
         author: {
@@ -41,7 +41,7 @@ storySchema.pre("save", function (next) {
     if (story.author === undefined) {
         console.log(User.username);
         User.findOne({
-          username: story.author
+          id: story.author
         })
             .then(user => {
                 story.author = user;
