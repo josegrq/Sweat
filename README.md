@@ -39,22 +39,60 @@ As mentioned in Assignment 1, we decided to show a welcome page to the user as t
 
 Kyle VanSteelandt:
 
-    I have worked on:
+    I have worked on: (UPDATED 4/15/2021)
         -signup.ejs
         -controllers
         -seed.js (redid the formating, variable names, and types to match the form)
-        -main.js
+        -main.js (added all the story routes)
         -error.ejs
+        -stories
+        -show.ejs(in stories)
+        -showFeed.ejs
+        -story.ejs
+        -storyController.js
+        -story.js (model)
+        -layout.css
+        -home.ejs
 
-    My biggest issue with the signUp form that I ran into was the fact that I couldn't get the Vue.js script
-    that I had created in assignment 2 to carry over and validate the form once it was completed. A lot of the solutions or work arounds I had found online either were not working for me or required something that was never talked about in class. Honestly thought we were supposed to use it because the requirements state that signup.js from assignment 2 needs to be in the public folder. Only thing is ejs has a hard time finding it and using it properly.
+    About Stories:
+    
+    Orignally it was called posts but that got really confusing so it was changed to
+    Sweaty Stories! Stories is its own model and contains the following:
+         Title
+         Author
+         Content
+         Image
+         Followers (placeholder)
+    Also to go along with the User model as every post needs an author a 'Stories'
+    Array was added which is to be populated by the users stories as they create 
+    them. To handle the image upload we are using Multer which will upload the
+    images to a directory called ./public/uploads this file will contain the binary 
+    of the uploaded .PNG images. 
 
-    So what the form currently can do:
-        -It will use the Browser to check if all the required fields are completed, if not it will bring the user to the first required field and ask that it be completed.
-        -All the field that have a invalid character or were blank will turn red
-        -If all fields are filled then the new User is added to the database and can login to the site
+    When the User first enters the website they are greeted with a Welcome (first 
+    name last name) and presented with a story creation form. Under that we have the
+    User profile. 
 
-    Issues I am having:
-        -While some of the validation functions work the compare password does not. The validation goes through as long as both password fields are filled.
+    When the User selects the 'Trending Link' they will be presented with all the
+    stories in the database.
 
-        Any feedback on how I can do this properly is welcome.
+    If the User clicks the 'Post' link they are brought to a page that contains the
+    layout and only the Story Creation form.
+
+    If a User clicks the author's ID on a post they are redirected to the authors
+    profile page. If the User clicks the title of the story they are brought to a 
+    page where the story is the only thing presented. At this page if the User ID 
+    is the same as the author ID they will be able to see a 'Edit' button and 
+    'Delete" button. There is also a 'Follow' button that has not been implimented
+    yet.
+
+    Current issues, Things that need more work:
+    Stories currently do not get added to the User Stories array. I believe this is
+    just an issue with how I am trying to do it but I can't see to get it working
+    properly without it crashing.
+    Needs more testing with multiple users posts but since I was having trouble 
+    getting them to push into the Stories array I haven't been able to really look
+    at this.
+    For whatever reason the Stories Schema does not like that the User.name is a
+    thing, it doesn't allow me to look up the username which probably has the same
+    sort of solution as the empty array.

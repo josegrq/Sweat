@@ -11,8 +11,8 @@ const getParams = (body) => {
             data: fs.readFileSync(path.join(__dirname, '../public/uploads/' + req.file.filename)),
             contentType: 'image/png'
         },
-        followers: [req.body.followers],
-        author: req.body.author,
+        followers: [],
+        author: req.user,
     }
 };
 module.exports = {
@@ -84,7 +84,30 @@ module.exports = {
               let messages = error.array().map((e) => e.msg);
               request.flash("error", messages.join(" and "));
               request.skip = true;
-              response.locals.redirect = `/stories/${currentUser.id}/story`;
+              response.locals.redirect = `/stories/${currentUser._id}`;
+              next();
+            } else {
+              next();
+            }
+          });
+    },
+    validateUpdate: (request, response, next) => {
+        const storyID = request.params.id;
+        request
+        .check("title", "Invalid title (check invalid characters)")
+        .notEmpty()
+        .matches(/^[a-zA-Z0-9\s,'-]*$/);
+        request
+        .check("content", "Invalid content (check invalid characters in content field)")
+        .notEmpty()
+        .matches(/^[a-zA-Z0-9\s,'-]*$/);
+        request.getValidationResult().then((error) => {
+            //ERRORS
+            if (!error.isEmpty()) {
+              let messages = error.array().map((e) => e.msg);
+              request.flash("error", messages.join(" and "));
+              request.skip = true;
+              response.locals.redirect = `/stories/${storyID}`;
               next();
             } else {
               next();
@@ -125,6 +148,49 @@ module.exports = {
                 console.log(`Error saving story: ${error.message}`);
                 next(error);
             });
+    },
+    edit: (req, res, next) => {
+        let storyID = req.params.id;
+        Story.findById(storyID)
+          .then((story) => {
+            res.render("stories/edit", { story: story });
+          })
+          .catch((error) => {
+            console.log(error);
+            next(error);
+          });
+    },
+    update: (req, res, next) => {
+        if (req.skip) {
+          return next();
+        }
+        let storyID = req.params.id;
+        let storyParams = getParams(req.body);
+        Story.findByIdAndUpdate(storyID, storyParams)
+          .then((story) => {
+            res.locals.redirect = `/stories/${storyID}`;
+            request.flash("success", "Your story has been successfully updated!");
+            res.locals.story = story;
+            next();
+          })
+          .catch((error) => {
+            console.log(error);
+            next(error);
+          });
+    },
+    delete: (request, response, next) => {
+        let storyID = request.params.id;
+        Story.findByIdAndDelete(storyID)
+          .then((story) => {
+            //You can do something with the deleted story info if you want
+            request.flash("success", "Your Story has been DELETED.");
+            response.locals.redirect = "/";
+            next();
+          })
+          .catch((error) => {
+            console.log(error);
+            next(error);
+          });
     },
     redirectView: (req, res, next) => {
         let redirectPath = res.locals.redirect;

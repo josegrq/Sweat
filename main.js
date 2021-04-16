@@ -160,6 +160,14 @@ router.post("/stories/story/create",
   storyController.create,
   storyController.redirectView
 );
+//Story updates
+router.get("/stories/:id/edit", storyController.edit);
+router.put(
+  "/stories/:id/update",
+  storyController.validateUpdate,
+  storyController.update,
+  storyController.redirectView
+);
 
 //PAGE ERROR HANDLING
 router.use(errorController.logErrors);

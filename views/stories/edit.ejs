@@ -1,0 +1,31 @@
+<!--stories/edit.ejs-->
+<div class="container container-lg container-md container-sm content-box ">
+    <form action="<%= `/stories/${story._id}/update?_method=PUT` %>" method="POST" enctype="multipart/form-data">
+        <div class="form-group center-text">
+            <div class="center" type="text" name="author" id="author" value="">
+                <h2>
+                    <%= `${currentUser.username}` %>
+                </h2>
+            </div>
+        </div>
+        <div class="center center-text">Edit your Sweaty story! </div>
+        <br />
+        <div class="center center-text">Title</div>
+        <input name="title" class="form-control" placeholder="Title" value="<%= `${story.title}` %>" required />
+        <br />
+        <div class="form-group">
+            <div class="center center-text">Content</div>
+            <textarea name="content" class="form-control" placeholder="Write your Sweaty Story!"
+                value="<%= `${story.content}` %>" required> </textarea>
+        </div>
+        <div class="center-text center form-group" type="text" value="">
+            <div class="float-left" type="text" name="Image" id="Image" value="data:image/<%=story.img.contentType%>;base64,
+                <%=story.img.data.toString('base64')%>">
+                Image <input name="image" id="image" type="file" />
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary right" type="submit">Edit</button>
+        </div>
+    </form>
+</div>
