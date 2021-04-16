@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose");
+Story = require("./story");
 
 const userSchema = mongoose.Schema(
   {
@@ -84,6 +85,7 @@ const userSchema = mongoose.Schema(
       required: false,
       trim: true,
     },
+    Stories: [{type: mongoose.Schema.Types.ObjectId, ref: 'Story'}],
   },
   { timestamp: true }
 );

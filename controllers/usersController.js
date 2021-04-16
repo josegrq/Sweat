@@ -17,6 +17,7 @@ const getParams = (body) => {
       zipCode: parseInt(body.zipCode),
     },
     bio: body.bio,
+    Stories: request.body.Stories
   };
 };
 module.exports = {
@@ -55,8 +56,8 @@ module.exports = {
         question: request.body.question,
         answer: request.body.answer,
       },
-
       bio: request.body.bio,
+      Stories: request.body.Stories
     });
     User.register(newUser, request.body.password, (error, user) => {
       if (user) {

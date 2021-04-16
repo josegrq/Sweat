@@ -1,0 +1,41 @@
+<div class="main-content">
+    <div class="cover-container d-flex mx-auto flex-column">
+        <!-- ShowFeed.ejs -->
+        <div class="body" id="randomContent">
+            <% story.forEach(story=> { %>
+                <div class="content-box">
+                    <h4>
+                        <a href="<%= `/stories/${story._id}/show` %>">
+                        <%= story.title %>
+                        </a>
+                    </h4>
+                    <br />
+                    <% if (!story.img) {%>
+                        <h5>No Image</h5>
+                        <% } else{ %>
+                            <img src="data:image/<%=story.img.contentType%>;base64,
+                    <%=story.img.data.toString('base64')%>" alt="image" style="width: 100%; height: 400px">
+                            <% } %>
+                                <div class="txtCaption">
+                                    <%= story.content %>
+                                </div>
+                                <br />
+                                <div class="txtAuthor">Post by:
+                                    <a href="<%= `/users/${story.author}` %>">
+                                        <%= story.author %>
+                                    </a>
+                                </div>
+                                <div class="txtDate">Posted on: <%= story.createdAt %>
+                                </div>
+                                <div class="btnReply">
+                                    <a href="#"></a>
+                                    <button>
+                                        Reply
+                                    </button>
+                                </div>
+                </div>
+                <br/>
+                <% }); %>
+        </div>
+    </div>
+</div>

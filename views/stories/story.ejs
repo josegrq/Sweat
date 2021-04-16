@@ -1,0 +1,30 @@
+<!-- story.ejs -->
+<div class="container container-lg container-md container-sm content-box ">
+    <form action="/stories/story/create/" method="POST" enctype="multipart/form-data">
+        <div class="form-group center-text">
+            <div class="center" type="text" name="author" id="author" value="">
+                <h2>
+                    <%= `${currentUser.username}` %>
+                </h2>
+            </div>
+        </div>
+        <div class="center center-text">Write a Sweaty story! </div>
+        <br />
+        <div class="center center-text">Title</div>
+        <input name="title" class="form-control" placeholder="Title" required />
+        <br />
+        <div class="form-group">
+            <div class="center center-text">Content</div>
+            <textarea name="content" class="form-control" placeholder="Write your sweaty story here~"
+                required></textarea>
+        </div>
+        <div class="center-text center form-group" type="text" value="">
+            <div class="float-left" type="text" name="author" id="author" value="">
+                Image <input name="image" id="image" type="file" />
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary right" type="submit">Submit</button>
+        </div>
+    </form>
+</div>

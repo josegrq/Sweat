@@ -27,14 +27,14 @@
     <link rel="stylesheet" href="http://localhost:3000/css/footer.css" />
     <link rel="stylesheet" href="http://localhost:3000/css/app.css" />
     <title>Sweat</title>
-    <script src="../public/scripts/app.js"></script>
+    <!--<script src="../public/scripts/app.js"></script>-->
   </head>
 
   <body>
     <header>
       <div class="search-bar-header">
         <div class="page-title">
-          <h3 class="text-uppercase">Home</h3>
+          <h3 class="text-uppercase">Welcome <%= `${currentUser.name.firstName} ${currentUser.name.lastName}` %></h3>
         </div>
         <div class="search">
           <!--<button><img src="http://localhost:3000/icons/search.png" /></button>-->
@@ -101,11 +101,19 @@
               ></a>
             </li>
             <li>
-              <a href="#">
+              <a href="<%= `/stories/${currentUser._id}/story` %>">
                 <img
                   src="http://localhost:3000/icons/post.png"
                   alt="post"
                   class="icon" /><span class="post-text"></span
+              ></a>
+            </li>
+            <li>
+              <a href="<%= `/stories/${currentUser._id}/showFeed` %>">
+                <img
+                  src="http://localhost:3000/icons/trending.png"
+                  alt="trending"
+                  class="icon" /><span class="trending-text"></span
               ></a>
             </li>
           </ul>

@@ -1,0 +1,57 @@
+<div class="main-content">
+  <div class="cover-container d-flex mx-auto flex-column">
+    <!-- Show.ejs -->
+      <div class="content-box">
+        <h4>
+          <%= story.title %>
+        </h4>
+        <br />
+        <% if (!story.img) {%>
+          <h5>No Image</h5>
+          <% } else{ %>
+            <img src="data:image/<%=story.img.contentType%>;base64,
+              <%=story.img.data.toString('base64')%>" alt="image" style="width: 100%; height: 400px">
+            <% } %>
+              <div class="txtCaption">
+                <%= story.content %>
+              </div>
+              <br />
+              <div class="txtAuthor">Post by:
+                <a href="<%= `/users/${story.author}` %>">
+                  <%= story.author %>
+                </a>
+              </div>
+              <div class="txtDate">Posted on: <%= story.createdAt %>
+              </div>
+              <div class="btnFollow ">
+                <a href="<%=`/stories/${story._id}`%>"></a>
+                <button>
+                  Follow
+                </button>
+              </div>
+              <% if (story.author == `${currentUser._id}`) {%>
+                <div class="btnEdit">
+                  <a class="button" href="<%=`/stories/${story._id}/edit`%>">
+                    Edit Story
+                  </a>
+                </div>
+                <div class="btnDelete">
+                  <a class="button" href="<%= `/stories/${story._id}/delete?_method=DELETE` %>"
+                    onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
+                </div>            
+              <% } %>
+      </div>
+  </div>
+</div>
+<div>
+  <a class="button" href="/stories">View all stories</a>
+</div>
+<div>
+  <a class="button" href="<%=`/stories/${story._id}/edit`%>">
+    Edit Story
+  </a>
+</div>
+<div>
+  <a class="button" href="<%= `/stories/${story._id}/delete?_method=DELETE` %>"
+    onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
+</div>
