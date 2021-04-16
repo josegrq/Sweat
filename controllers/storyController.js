@@ -44,6 +44,16 @@ module.exports = {
         newStory
             .save()
             .then(result => {
+              console.log("newStory", newStory);
+              User.findByIdAndUpdate(author,
+                { $push: { story: newStory._id } },
+                { safe: true, upsert: true },
+                function (err, doc) {
+                  if (err) {
+                    console.log(err);
+                  } 
+                }
+              );
                 res.render("home");
             })
             .catch(error => {
@@ -183,29 +193,13 @@ module.exports = {
           .then((story) => {
             //You can do something with the deleted story info if you want
             request.flash("success", "Your Story has been DELETED.");
-            response.locals.redirect = "/";
+            response.locals.redirect = "home";
             next();
           })
           .catch((error) => {
             console.log(error);
             next(error);
           });
-    },
-    updateStories: (req, res) => {  
-      let storyID = req.params.id;
-      let storyParams = getParams(req.body);
-      console.log("request ", req.params);
-      User.findByIdAndUpdate(req.user._id,
-        { $push: { story: storyID } },
-        { safe: true, upsert: true },
-        function (err, doc) {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log(Stories);
-          }
-        }
-      );
     },
     redirectView: (req, res, next) => {
         let redirectPath = res.locals.redirect;
