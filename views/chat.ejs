@@ -1,0 +1,27 @@
+<div class="messages-container">
+  <div class="connections">
+    <% user.Connections.forEach(connection => {
+    users.forEach(potentialConnection => {
+    if(connection.equals(potentialConnection._id)) { %>
+    <div class="connection-tab text-center">
+      <a href="#" class="d-flex justify-content-center">
+        <h5>
+          <%= `${potentialConnection.name.firstName}
+          ${potentialConnection.name.lastName}` %>
+        </h5>
+      </a>
+    </div>
+    <% } }); }); %>
+  </div>
+  <ul class="messages-view" id="messages-view"></ul>
+  <form id="messages-form" class="input-group" action="#">
+    <input
+      class="form-control"
+      type="text"
+      placeholder="Send a message..."
+      id="input-message"
+    /><button class="btn btn-primary" type="button">Send</button>
+  </form>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://localhost:3000/scripts/messages.js"></script>

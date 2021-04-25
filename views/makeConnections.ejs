@@ -1,0 +1,33 @@
+<div class="connections-container">
+  <div class="connections-view overflow-auto row">
+    <% users.forEach((user) => { %>
+    <div class="card-container col-sm-3 text-center">
+      <div class="card">
+        <img
+          src="http://localhost:3000/images/profile_img.png"
+          class="card-img-top"
+          alt=""
+        />
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= `${user.name.firstName} ${user.name.lastName}`%>
+          </h5>
+          <p class="card-text">
+            <% if(user.bio == ""){ %> No Bio <% } else{ %> <%= user.bio %> <% }
+            %>
+          </p>
+          <button
+            class="<%= user.following? 'unfollow' : 'follow' %> btn btn-primary"
+            id="<%= user._id %>"
+            data-id="<%= user._id %>"
+            onclick="checkFollowStatus('<%= user._id %>')"
+          >
+            <%= user.following? 'Unfollow' : 'Follow' %>
+          </button>
+          <!--<a href="#" class="btn btn-primary">Connect</a>-->
+        </div>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+</div>

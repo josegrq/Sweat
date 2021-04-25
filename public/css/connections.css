@@ -1,0 +1,24 @@
+.connections-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.connections-view {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.card-container {
+  min-height: 200px;
+}
+
+.card {
+  padding: 0;
+}

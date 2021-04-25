@@ -17,9 +17,14 @@ const expressValidator = require("express-validator");
 const passport = require("passport");
 const User = require("./models/user");
 const { serializeUser } = require("passport");
-var multer = require('multer');
-
-
+var multer = require("multer");
+const timestampMessages = require("./utils/timestampMessages");
+const {
+  userConnected,
+  getCurrentUser,
+  userLeft,
+  getConnectionsForCurrentUser,
+} = require("./utils/connections");
 
 //Configurations to using coookie-parser
 sess = {
@@ -30,28 +35,34 @@ sess = {
     maxAge: 4000000,
   },
 };
+//Set up connection to DB
 mongoose
   .connect("mongodb://localhost:27017/Sweat", {
     useNewUrlParser: true,
-    useFindAndModify: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log("Connected to DB.");
   })
   .catch((error) => console.log("Unable to connect to DB: ", error));
 
-//app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(bodyParser.json());
-
+//Setup app
 const app = express();
-const router = express.Router();
+const router = require("./routes/index");
+
+//For real-time messaging
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
-router.use(layouts);
+app.use(layouts);
 
 //MIDDLEWARE
 //PRE-PROCESSING REQUESTS
-router.use(express.static("public"));
+app.use(express.static("public"));
 //We are parsing URL encoded data from the body
 app.use(
   express.urlencoded({
@@ -59,12 +70,12 @@ app.use(
   })
 );
 //Interpret body and query string data as JSON
-router.use(express.json());
-router.use(methodOverride("_method", { methods: ["POST", "GET"] }));
-router.use(expressValidator());
+app.use(express.json());
+app.use(methodOverride("_method", { methods: ["POST", "GET"] }));
+app.use(expressValidator());
 
-router.use(cookieParser("My-53cr3t_C0d3"));
-router.use(
+app.use(cookieParser("My-53cr3t_C0d3"));
+app.use(
   session({
     secret: "My-53cr3t_C0d3",
     cookie: {
@@ -74,29 +85,28 @@ router.use(
     saveUninitialized: false,
   })
 );
-router.use(flash());
+app.use(flash());
 
 //Set up Multer for Storage of posts
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, './public/uploads')
+    cb(null, "./public/uploads");
   },
   filename: (req, file, cb) => {
-      cb(null, file.fieldname + '-' + Date.now())
-  }
+    cb(null, file.fieldname + "-" + Date.now());
+  },
 });
 var upload = multer({ storage: storage });
 
-
 //We use passport and session for messages
-router.use(passport.initialize());
-router.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //We let passport be in charge of letting us know if user is logged in
-router.use((request, response, next) => {
+app.use((request, response, next) => {
   response.locals.flashMessages = request.flash();
   response.locals.loggedIn = request.isAuthenticated();
   response.locals.currentUser = request.user;
@@ -104,7 +114,7 @@ router.use((request, response, next) => {
 });
 
 //ROUTES GO HERE
-router.get("/", usersController.getWelcomePage);
+/*router.get("/", usersController.getWelcomePage);
 router.get("/users/signup", usersController.getSignUpPage);
 router.post(
   "/users/create",
@@ -122,6 +132,12 @@ router.get(
   "/users/logout",
   usersController.logout,
   usersController.redirectView
+);
+router.get("/users/:id/messages", usersController.getMessagesPage);
+router.get(
+  "/users/:id/connections",
+  usersController.connections,
+  usersController.showConnectios
 );
 router.get("/users/:id/edit", usersController.edit);
 router.get("/users/:id/change", usersController.change);
@@ -147,16 +163,21 @@ router.get(
   "/home",
   usersController.isAuthenticated,
   homeController.getHomePage
-);
+);*/
 
-//User stories
+/*//User stories
 //router.get("/stories/showFeed", storyController.index, storyController.indexView);
 router.get("/stories", storyController.index, storyController.indexView);
 router.get("/stories/:id/show", storyController.show, storyController.showView);
-router.get("/stories/:id/showFeed", storyController.index, storyController.indexView);
+router.get(
+  "/stories/:id/showFeed",
+  storyController.index,
+  storyController.indexView
+);
 router.get("/stories/:id/story", storyController.new);
-router.post("/stories/story/create",
-  upload.single('image'),
+router.post(
+  "/stories/story/create",
+  upload.single("image"),
   storyController.create,
   storyController.redirectView
 );
@@ -173,13 +194,72 @@ router.delete(
   "/stories/:id/delete",
   storyController.delete,
   storyController.redirectView
-);
+);*/
 //PAGE ERROR HANDLING
-router.use(errorController.logErrors);
-router.use(errorController.pageNotFoundError);
-router.use(errorController.internalServerError);
+//router.use(errorController.logErrors);
+//router.use(errorController.pageNotFoundError);
+//router.use(errorController.internalServerError);
+
+/**If you want to show status of user conected to Social Media, yoou need to add the scripts of chat.ejs to layout.ejs */
+io.on("connection", (socket) => {
+  //We will store the current user ID for later use
+  let currentUserId;
+
+  //User popped into Messages tab
+  socket.on("joined chat", (userId) => {
+    //Get the user info to get their email so other users can email them
+    User.findById(userId)
+      .then((user) => {
+        console.log("Here we are");
+        //We get userid from request
+        currentUserId = userId;
+        //Add to array of connected users
+        userConnected(userId, user.email);
+        //Join user into unique room with their userid
+        socket.join(userId);
+      })
+      .catch((error) => {
+        console.log(`ERROR: ${error.message}`);
+      });
+
+    //Send to EVERYONE
+    //socket.emit("message", "Welcome");
+
+    //Send to everyone, but self
+    //socket.broadcast.emit("message", "user joined");
+
+    //Private messages
+    socket.on("private message", ({ content, to }) => {
+      socket.to(to).emit("private message", {
+        content,
+        from: userId,
+      });
+    });
+  });
+  //for (let [id, socket] of io.of("/").sockets) {
+  //  users.push({
+  //    userID: id,
+  //    username: socket,
+  //  });
+  //}
+  //for (let user of users) {
+  //  console.log("JOSE JOS JO J");
+  //  console.log(user);
+  //}
+
+  //New Chat
+  //socket.on("chat", (msg) => {
+  //  io.emit("chat", msg);
+  //});
+
+  //Disconnected
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+    userLeft(currentUserId);
+  });
+});
 
 app.use("/", router);
-app.listen(app.get("port"), () => {
+server.listen(app.get("port"), () => {
   console.log(`Server is running on port: ${app.get("port")}`);
 });

@@ -24,17 +24,29 @@
       href="https://fonts.googleapis.com/css?family=Audiowide"
     />
     <link rel="stylesheet" href="http://localhost:3000/css/landingPage.css" />
+    <link rel="stylesheet" href="http://localhost:3000/css/messages.css" />
+    <link rel="stylesheet" href="http://localhost:3000/css/connections.css" />
     <link rel="stylesheet" href="http://localhost:3000/css/footer.css" />
     <link rel="stylesheet" href="http://localhost:3000/css/app.css" />
     <title>Sweat</title>
     <!--<script src="../public/scripts/app.js"></script>-->
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script src="http://localhost:3000/scripts/connections.js"></script>
   </head>
 
   <body>
     <header>
       <div class="search-bar-header">
         <div class="page-title">
-          <h3 class="text-uppercase">Welcome <%= `${currentUser.name.firstName} ${currentUser.name.lastName}` %></h3>
+          <h3 class="text-uppercase">
+            Welcome <%= `${currentUser.name.firstName}
+            ${currentUser.name.lastName}` %>
+          </h3>
         </div>
         <div class="search">
           <!--<button><img src="http://localhost:3000/icons/search.png" /></button>-->
@@ -60,6 +72,7 @@
               alt="Logo"
           /></a>
           <ul class="nav-links">
+            <!--Home-->
             <li>
               <a href="/home">
                 <img
@@ -68,6 +81,7 @@
                   class="icon" /><span class="home-text"></span
               ></a>
             </li>
+            <!--Notifications-->
             <li>
               <a href="#">
                 <img
@@ -76,14 +90,16 @@
                   class="icon" /><span class="notifications-text"></span
               ></a>
             </li>
+            <!--Messages-->
             <li>
-              <a href="#">
+              <a href="<%= `/users/${currentUser._id}/messages` %>">
                 <img
                   src="http://localhost:3000/icons/messages.png"
                   alt="messages"
                   class="icon" /><span class="messages-text"></span
               ></a>
             </li>
+            <!--Profile-->
             <li>
               <a href="<%= `/users/${currentUser._id}` %>"
                 ><img
@@ -92,14 +108,16 @@
                   class="icon" /><span class="profile-text"></span
               ></a>
             </li>
+            <!--Connections-->
             <li>
-              <a href="#">
+              <a href="<%= `/users/${currentUser._id}/connections` %>">
                 <img
                   src="http://localhost:3000/icons/connections.png"
                   alt="connections"
                   class="icon" /><span class="connections-text"></span
               ></a>
             </li>
+            <!--Posts-->
             <li>
               <a href="<%= `/stories/${currentUser._id}/story` %>">
                 <img
@@ -108,6 +126,7 @@
                   class="icon" /><span class="post-text"></span
               ></a>
             </li>
+            <!--Trending-->
             <li>
               <a href="<%= `/stories/${currentUser._id}/showFeed` %>">
                 <img
@@ -153,5 +172,13 @@
         <p>Copyright &copy; 2021 Sweat. All Rights Reserved.</p>
       </div>
     </footer>
+    <script src="http://localhost:3000/scripts/connections.js"></script>
+    <!--<script
+      src="https://cdn.socket.io/4.0.1/socket.io.min.js"
+      integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://localhost:3000/scripts/messages.js"></script>-->
   </body>
 </html>

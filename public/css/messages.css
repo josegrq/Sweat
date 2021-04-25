@@ -1,0 +1,52 @@
+.messages-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.messages-view {
+  position: relative;
+  margin-left: 280px;
+  margin-bottom: 0px;
+  height: calc(100% - 50px);
+  background-color: white;
+}
+
+.messages-container form input,
+.messages-container form button {
+  border: 1px solid black;
+}
+
+.connections {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(100% - 50px);
+  width: 250px;
+  overflow-y: auto;
+}
+
+.connection-tab {
+  position: relative;
+  border-radius: 5px;
+  width: 100%;
+  background-color: white;
+
+  box-shadow: 10px 10px 29px -9px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 10px 10px 29px -9px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 10px 10px 29px -9px rgba(0, 0, 0, 0.25);
+
+  margin: 10px 0;
+}
+.connection-tab a {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: black;
+}
+
+.connection-tab a h5 {
+  margin: auto 0;
+}

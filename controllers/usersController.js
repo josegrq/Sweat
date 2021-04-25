@@ -1,6 +1,7 @@
 const { request } = require("express");
 const User = require("../models/user");
 const passport = require("passport");
+const httpStatusCodes = require("http-status-codes");
 const getParams = (body) => {
   return {
     name: {
@@ -17,7 +18,7 @@ const getParams = (body) => {
       zipCode: parseInt(body.zipCode),
     },
     bio: body.bio,
-    Stories: request.body.Stories
+    Stories: request.body.Stories,
   };
 };
 module.exports = {
@@ -57,7 +58,7 @@ module.exports = {
         answer: request.body.answer,
       },
       bio: request.body.bio,
-      Stories: request.body.Stories
+      Stories: request.body.Stories,
     });
     User.register(newUser, request.body.password, (error, user) => {
       if (user) {
@@ -80,6 +81,7 @@ module.exports = {
       .sanitizeBody("email")
       .normalizeEmail({
         all_lowercase: true,
+        gmail_remove_dots: false,
       })
       .trim();
 
@@ -104,18 +106,19 @@ module.exports = {
     request
       .check("email", "Email is not valid")
       .notEmpty()
-      .normalizeEmail()
+      .normalizeEmail({
+        all_lowercase: true,
+        gmail_remove_dots: false,
+      })
       .isEmail();
     const confirmPassword = request.body.password;
     request
       .check(
         "password",
-        "Password must be at least 8 characters long, have at least one uppercase and lowercase letter, and must include a special character."
+        "Password must be at least 8 characters long, have at least one uppercase and lowercase letter, and must include a number."
       )
       .notEmpty()
-      .matches(
-        /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/
-      );
+      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
     request
       .check("confirmPassword", "Passwords are not the same")
       .equals(confirmPassword);
@@ -156,6 +159,7 @@ module.exports = {
       .sanitizeBody("email")
       .normalizeEmail({
         all_lowercase: true,
+        gmail_remove_dots: false,
       })
       .trim();
 
@@ -179,7 +183,7 @@ module.exports = {
     request
       .check("email", "Email is not valid")
       .notEmpty()
-      .normalizeEmail()
+      .normalizeEmail({ all_lowercase: true, gmail_remove_dots: false })
       .isEmail();
     //Not needed
     //request.check("gender", "");
@@ -241,7 +245,6 @@ module.exports = {
   },
   isAuthenticated: (request, response, next) => {
     if (request.isAuthenticated()) {
-      console.log("Jose");
       return next();
     }
     response.redirect("/users/login");
@@ -361,5 +364,126 @@ module.exports = {
     if (newPath) {
       response.redirect(newPath);
     }
+  },
+  getMessagesPage: (request, response) => {
+    let userId = request.params.id;
+    User.findById(userId)
+      .then((user) => {
+        User.find({}).then((users) => {
+          response.render("chat", { user: user, users: users });
+        });
+      })
+      .catch((error) => {
+        next(error);
+      });
+  },
+  connections: (request, response, next) => {
+    User.find({})
+      .then((users) => {
+        response.locals.users = users;
+        next();
+      })
+      .catch((error) => {
+        next(error);
+      });
+  },
+  showConnectios: (request, response) => {
+    response.render("makeConnections");
+  },
+  respondJSON: (request, response) => {
+    response.json({
+      status: httpStatusCodes.OK,
+      data: response.locals,
+    });
+  },
+  errorJSON: (error, request, response, next) => {
+    let errorObject;
+    //We have an error
+    if (error) {
+      errorObject = {
+        status: httpStatusCodes.INTERNAL_SERVER_ERROR,
+        message: error.message,
+      };
+    } else {
+      errorObject = {
+        status: httpStatusCodes.OK,
+        message: "Unknown Error",
+      };
+    }
+    response.json(errorObject);
+  },
+  //This function will add a boolean attribute to users letting us know if current user follows them or not
+  filterUsers: (request, response, next) => {
+    let listOfUsers;
+    User.find({}).then((users) => {
+      listOfUsers = users;
+      //This is the logged in user
+      let currentUser = response.locals.currentUser;
+      let mappedUsers = listOfUsers.map((user) => {
+        let followingUser = currentUser.Connections.some((userConnection) => {
+          return userConnection.equals(user._id);
+        });
+        return Object.assign(user.toObject(), {
+          following: followingUser,
+        });
+      });
+      //We remove our own profile
+      for (let index = 0; index < mappedUsers.length; index++) {
+        if (mappedUsers[index]._id.equals(currentUser._id)) {
+          mappedUsers.splice(index, 1);
+          break;
+        }
+      }
+      response.locals.users = mappedUsers;
+      next();
+    });
+  },
+  follow: (request, response, next) => {
+    //This is user we want to follow/connect to
+    let userID = request.params.id;
+    let currentUser = request.user;
+    User.findByIdAndUpdate(currentUser, {
+      $addToSet: {
+        Connections: userID,
+      },
+    })
+      .then(() => {
+        //Let site know user was added to our connections
+        response.locals.success = true;
+        next();
+      })
+      .catch((error) => {
+        next(error);
+      });
+  },
+  unfollow: (request, response, next) => {
+    //We want to unfollow this user
+    let userID = request.params.id;
+    //Logged user
+    let currentUser = request.user;
+    User.findByIdAndUpdate(currentUser, {
+      $pull: {
+        Connections: userID,
+      },
+    })
+      .then(() => {
+        //Let site know user was added to our connections
+        response.locals.success = true;
+        next();
+      })
+      .catch((error) => {
+        next(error);
+      });
+  },
+  index: (request, response, next) => {
+    User.find()
+      .then((users) => {
+        response.locals.users = users;
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next(error);
+      });
   },
 };

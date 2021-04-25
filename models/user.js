@@ -85,7 +85,8 @@ const userSchema = mongoose.Schema(
       required: false,
       trim: true,
     },
-    Stories: [{type: mongoose.Schema.Types.ObjectId, ref: 'Story'}],
+    Stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Story" }],
+    Connections: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamp: true }
 );
