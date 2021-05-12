@@ -6,11 +6,11 @@
                 <div class="content-box">
                     <h4>
                         <a href="<%= `/stories/${story._id}/show` %>">
-                        <%= story.title %>
+                            <%= story.title %>
                         </a>
                     </h4>
                     <br />
-                    <% if (!story.img) {%>
+                    <% if (story.img.data == undefined) {%>
                         <h5>No Image</h5>
                         <% } else{ %>
                             <img src="data:image/<%=story.img.contentType%>;base64,
@@ -34,7 +34,7 @@
                                     </button>
                                 </div>
                 </div>
-                <br/>
+                <br />
                 <% }); %>
         </div>
     </div>

@@ -94,4 +94,14 @@ const userSchema = mongoose.Schema(
 userSchema.plugin(passportLocalMongoose, {
   usernameField: "email",
 });
+
+userSchema.methods.addStoryToUser = function (story) {
+  return this.model("User")
+  .findByIdAndUpdate(
+      this._id,
+      { $push: { Stories: story._id } },
+      { new: true, useFindAndModify: false }
+  );
+};
+
 module.exports = mongoose.model("User", userSchema);

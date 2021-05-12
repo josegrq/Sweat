@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const storyController = require("../controllers/storyController");
+const tagsController = require("../controllers/tagController");
 var multer = require("multer");
 
 //Set up Multer for Storage of posts
@@ -22,7 +23,9 @@ router.get("/:id/story", storyController.new);
 router.post(
   "/story/create",
   upload.single("image"),
+  //tagsController.create,
   storyController.create,
+  storyController.extractTags,
   storyController.redirectView
 );
 //Story updates

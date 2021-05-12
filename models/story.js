@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 User = require("./user");
+Tag = require("./tag");
 //const passportLocalMongoose = require("passport-local-mongoose");
 
 
@@ -17,17 +18,17 @@ const storySchema = mongoose.Schema(
             data: Buffer,
             contentType: String,
         },
-        followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
-        }
+        },
+        tags: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tag" }],
     },
     { timestamps: true }
 );
 
 storySchema.methods.getInfo = function () {
-    return `Author: ${this.author} Title: ${this.title} Content: ${this.content} Image: ${this.img}`;
+    return `Author: ${this.author} Title: ${this.title} Content: ${this.content} Image: ${this.img} Tags: ${this.tags}`;
 };
 
 storySchema.methods.findUserstorys = function () {
@@ -36,12 +37,27 @@ storySchema.methods.findUserstorys = function () {
         .exec();
 };
 
+storySchema.methods.findStorybyTag = function () {
+    return this.model("Story")
+        .find({ tag: this.tags })
+        .exec();
+};
+
+storySchema.methods.addTagToStory = function (tag) {
+    return this.model("Story")
+    .findByIdAndUpdate(
+        this._id,
+        { $push: { tags: tag._id } },
+        { new: true, useFindAndModify: false }
+    );
+};
+
 storySchema.pre("save", function (next) {
     let story = this;
     if (story.author === undefined) {
-        console.log(User.username);
+        console.log("User username: ", User.username);
         User.findOne({
-          id: story.author
+            id: story.author
         })
             .then(user => {
                 story.author = user;
