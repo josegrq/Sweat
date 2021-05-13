@@ -84,8 +84,12 @@
                 <img
                   src="/icons/notifications.png"
                   alt="notifications"
-                  class="icon" /><span class="notifications-text"></span
-              ></a>
+                  class="icon"
+                /><span class="notifications-text"></span
+                ><span class="badge bg-secondary"
+                  ><%= currentUser.Notifications.length%></span
+                ></a
+              >
             </li>
             <!--Messages-->
             <li>

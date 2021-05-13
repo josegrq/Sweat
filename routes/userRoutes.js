@@ -17,6 +17,11 @@ router.post(
   usersController.redirectView
 );
 router.get("/logout", usersController.logout, usersController.redirectView);
+router.delete(
+  "/notifications/:id/:story/delete",
+  usersController.dismiss,
+  usersController.redirectView
+);
 router.get("/:id/notifications", usersController.getNotificationsPage);
 //Messages related routes
 router.get(

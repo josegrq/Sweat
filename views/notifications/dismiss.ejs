@@ -1,0 +1,19 @@
+<div class="messages-container">
+  <div class="connections">
+    <table class="table-info">
+      <% stories.forEach(story => { %>
+      <tr class="table-info text-center">
+        <td class="table-info">NEW STORY</td>
+        <td class="table-info">
+          <a
+            href="<%= `/users/notifications/${user}/${story._id}delete?_method=DELETE` %>"
+            onclick="return confirm('Are you sure?')"
+            class="btn btn-danger"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      <% }); %>
+    </table>
+  </div>
+</div>

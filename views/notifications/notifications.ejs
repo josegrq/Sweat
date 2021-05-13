@@ -1,0 +1,35 @@
+<div class="notifications-container">
+  <div class="notifications">
+    <table class="table">
+      <tbody>
+        <% stories.forEach(story => { %>
+        <tr class="text-center">
+          <td class="">
+            <div class="alert alert-success" role="alert">
+              <h4 class="alert-heading">New Post</h4>
+              <p>Title: <%= story.title %></p>
+              <p>Content: <%= story.content %></p>
+              <hr />
+              <% following.forEach(person => {
+              if(story.author.equals(person._id)) { %>
+              <p class="mb-0">
+                <%= `Author: ${person.name.firstName} ${person.name.lastName}`
+                %>
+              </p>
+              <% } }); %>
+            </div>
+          </td>
+          <td class="">
+            <a
+              href="<%= `/users/notifications/${userId}/${story._id}/delete?_method=DELETE` %>"
+              onclick="return confirm('Are you sure?')"
+              class="btn btn-danger"
+              >Dismiss</a
+            >
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>

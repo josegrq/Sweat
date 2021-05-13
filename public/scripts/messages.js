@@ -93,8 +93,14 @@ $(document).ready(() => {
     messageItem.textContent = msgObj.msg;
     if (msgObj.sender === userID) {
       messageItem.classList.add("right-align");
+      messageItem.classList.add("alert");
+      messageItem.classList.add("alert-primary");
+      messageItem.classList.add("custom");
     } else {
       messageItem.classList.add("left-align");
+      messageItem.classList.add("alert");
+      messageItem.classList.add("alert-secondary");
+      messageItem.classList.add("custom");
     }
     messages.appendChild(messageItem);
     window.scrollTo(0, document.body.scrollHeight);
@@ -112,12 +118,19 @@ $(document).ready(() => {
       //divItem.appendChild(messageItem);
       if (msg.sender === userID) {
         messageItem.classList.add("right-align");
+        messageItem.classList.add("alert");
+        messageItem.classList.add("alert-primary");
+        messageItem.classList.add("custom");
       } else {
         messageItem.classList.add("left-align");
+        messageItem.classList.add("alert");
+        messageItem.classList.add("alert-secondary");
+        messageItem.classList.add("custom");
       }
       messages.appendChild(messageItem);
       //SCROLL NOT WORKING
-      window.scrollTo(0, document.body.scrollHeight);
+      var messageView = document.getElementById("messages-view");
+      messageView.scrollTop = messageView.scrollHeight;
     });
   });
 
@@ -135,7 +148,8 @@ $(document).ready(() => {
     var messageItem = document.createElement("li");
     messageItem.textContent = msg;
     messages.appendChild(messageItem);
-    window.scrollTo(0, document.body.scrollHeight);
+    var messageView = document.getElementById("messages-view");
+    messageView.scrollTop = messageView.scrollHeight;
   });
 
   //socket.on("connect", () => {

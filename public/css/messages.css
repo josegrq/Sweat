@@ -31,7 +31,9 @@
   height: 2.5em;
   margin: 0;
 }
-
+/* .custom {
+  width: 50%;
+} */
 .connections {
   position: absolute;
   top: 0;

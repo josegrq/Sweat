@@ -1,5 +1,6 @@
 const { request, response } = require("express");
 const User = require("../models/user");
+const Story = require("../models/story");
 const passport = require("passport");
 const httpStatusCodes = require("http-status-codes");
 const getParams = (body) => {
@@ -69,7 +70,7 @@ module.exports = {
           "error",
           `New user account failed to create: ${error.message}`
         );
-        response.locals.redirect = "/users/new";
+        response.locals.redirect = "/users/create";
         next();
       }
     });
@@ -511,21 +512,88 @@ module.exports = {
         next(error);
       });
   },
-  getNotificationsPage: (request, response) => {
+  dismiss: (request, response, next) => {
     let userId = request.params.id;
+    let storyId = request.params.story;
+    // User.findByIdAndDelete(userId)
+    //   .then((user) => {
+    //     //You can do something with the deleted user info if you want
+    //     request.logout();
+    //     request.flash("success", "Your account has been DELETED.");
+    //     response.locals.redirect = "/";
+    //     next();
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     next(error);
+    //   });
+    User.update(
+      { _id: userId },
+      { $pull: { Notifications: storyId } },
+      (error, user) => {
+        console.log("X");
+        console.log(user);
+        if (error) {
+          request.flash("failure", "Unable to dismiss");
+        } else {
+          request.flash("success", "Notification has been dismissed!");
+        }
+        response.locals.redirect = `/users/${userId}/notifications`;
+        next();
+      }
+    );
     User.findById(userId)
       .then((user) => {
         User.find({ _id: { $in: user.Connections } })
-          .then((connections) => {
-            console.log("These are the connections");
-            console.log(connections);
-            response.render("notifications", { connections: connections });
+          .then((following) => {
+            response.locals.redirect = `/users/${userId}/notifications`;
+            response.locals.stories = user.Notifications;
+            response.locals.following = following;
+            next();
+          })
+          .catch((error) => {
+            next(error);
+          });
+      })
+      .catch((error) => next(error));
+  },
+  getNotificationsPage: (request, response) => {
+    let userId = request.params.id;
+    // User.findById(userId)
+    //   .then((user) => {
+    //     User.find({ _id: { $in: user.Connections } })
+    //       .then((connections) => {
+    //         console.log("These are the connections");
+    //         console.log(connections);
+    //         response.render("notifications", { connections: connections });
+    //       })
+    //       .catch((error) => {
+    //         console.log(error.message);
+    //       });
+    //   })
+    //   .catch((error) => console.log(error.message));
+    User.findById(userId)
+      .then((user) => {
+        Story.find({ _id: { $in: user.Notifications } })
+          .then((stories) => {
+            User.find({ _id: { $in: user.Connections } })
+              .then((following) => {
+                response.render("notifications/notifications", {
+                  userId: userId,
+                  stories: stories,
+                  following: following,
+                });
+              })
+              .catch((error) => console.log(error.message));
           })
           .catch((error) => {
             console.log(error.message);
           });
+        //console.log(user.Notifications)
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        console.log(error.message);
+      });
   },
   index: (request, response, next) => {
     User.find()

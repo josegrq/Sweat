@@ -4,7 +4,8 @@
       <thead>
         <tr class="">
           <th colspan="2" scope="col text-center">
-            <%= `${user.name.firstName.replace(/\w/, c=> c.toUpperCase())} ${user.name.lastName.replace(/\w/, c=> c.toUpperCase())}` %>
+            <%= `${user.name.firstName.replace(/\w/, c=> c.toUpperCase())}
+            ${user.name.lastName.replace(/\w/, c=> c.toUpperCase())}` %>
           </th>
         </tr>
       </thead>
@@ -12,7 +13,8 @@
         <tr>
           <td style="width: 50%" class="text-right">Name:</td>
           <td style="width: 50%" class="text-left">
-            <%= `${user.name.firstName.replace(/\w/, c=> c.toUpperCase())} ${user.name.lastName.replace(/\w/, c=> c.toUpperCase())}` %>
+            <%= `${user.name.firstName.replace(/\w/, c=> c.toUpperCase())}
+            ${user.name.lastName.replace(/\w/, c=> c.toUpperCase())}` %>
           </td>
         </tr>
         <tr>
@@ -33,15 +35,21 @@
         </tr>
         <tr>
           <td class="text-right">Street:</td>
-          <td class="text-left"><%= user.location.street.replace(/\w/, c=> c.toUpperCase()) %></td>
+          <td class="text-left">
+            <%= user.location.street.replace(/\w/, c=> c.toUpperCase()) %>
+          </td>
         </tr>
         <tr>
           <td class="text-right">City:</td>
-          <td class="text-left"><%= user.location.city.replace(/\w/, c=> c.toUpperCase()) %></td>
+          <td class="text-left">
+            <%= user.location.city.replace(/\w/, c=> c.toUpperCase()) %>
+          </td>
         </tr>
         <tr>
           <td class="text-right">State:</td>
-          <td class="text-left"><%= user.location.state.replace(/\w/, c=> c.toUpperCase()) %></td>
+          <td class="text-left">
+            <%= user.location.state.replace(/\w/, c=> c.toUpperCase()) %>
+          </td>
         </tr>
         <tr>
           <td class="text-right">City:</td>

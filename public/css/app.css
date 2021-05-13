@@ -15,7 +15,7 @@
 }*/
 
 .content-screen {
-  /*height: 100px;*/
+  height: 100px;
   min-height: calc(100vh - 111px);
   width: 100%;
   display: flex;
@@ -27,6 +27,12 @@
 
 .main-content {
   flex: 1;
+}
+.home-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
 }
 .password-change a:hover {
   color: #fff;

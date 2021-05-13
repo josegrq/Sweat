@@ -30,7 +30,7 @@ sess = {
 };
 //Set up connection to DB
 mongoose
-  .connect("mongodb://localhost:27017/Sweat", {
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/Sweat", {
     useNewUrlParser: true,
     useFindAndModify: false,
   })
@@ -49,7 +49,10 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: [
+      "https://blooming-cove-18869.herokuapp.com/",
+      "http://localhost:3000",
+    ],
   },
 });
 //Middleware to check username
