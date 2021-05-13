@@ -1,32 +1,33 @@
 const { request } = require("express");
-var Story = require('../models/story');
-var Tag = require('../models/tag');
-var fs = require('fs');
-var path = require('path');
-
-
+var Story = require("../models/story");
+var Tag = require("../models/tag");
+var fs = require("fs");
+var path = require("path");
+const User = require("../models/user");
 
 const getParams = (body) => {
   return {
     title: req.body.title,
     content: req.body.content,
     img: {
-      data: fs.readFileSync(path.join(__dirname, '../public/uploads/' + req.file.filename)),
-      contentType: 'image/png'
+      data: fs.readFileSync(
+        path.join(__dirname, "../public/uploads/" + req.file.filename)
+      ),
+      contentType: "image/png",
     },
     author: req.user,
-    Stories: req.Stories
-  }
+    Stories: req.Stories,
+  };
 };
 
 module.exports = {
   index: function (req, res, next) {
     Story.find({})
-      .then(story => {
+      .then((story) => {
         res.locals.story = story;
         next();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(`Error fetching story: ${error.message}`);
         next(error);
       });
@@ -47,9 +48,10 @@ module.exports = {
     });
     newStory
       .save()
-      .then(result => {
+      .then((result) => {
         console.log("newStory", newStory);
-        User.findByIdAndUpdate({ author: { author: userId } },
+        User.findByIdAndUpdate(
+          { author: { author: userId } },
           { $push: { Stories: newStory._id } },
           { safe: true, upsert: true },
           function (err, doc) {
@@ -59,7 +61,8 @@ module.exports = {
           }
         );
         newStory.tags.forEach(
-          Tag.findOneAndUpdate({ tags: { name: tag.name } },
+          Tag.findOneAndUpdate(
+            { tags: { name: tag.name } },
             { $push: { Stories: newStory._id } },
             { safe: true, upsert: true },
             function (err, doc) {
@@ -71,7 +74,7 @@ module.exports = {
         );
         res.render("home");
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) res.send(error);
       });
   },
@@ -82,11 +85,11 @@ module.exports = {
     console.log("req:  ", req);
     let storyId = req.params.id;
     Story.findById(storyId)
-      .then(story => {
+      .then((story) => {
         res.locals.story = story;
         next();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(`Error fetching story by ID: ${error.message}`);
         next(error);
       });
@@ -100,7 +103,10 @@ module.exports = {
       .notEmpty()
       .matches(/^[a-zA-Z0-9\s,'-]*$/);
     request
-      .check("content", "Invalid content (check invalid characters in content field)")
+      .check(
+        "content",
+        "Invalid content (check invalid characters in content field)"
+      )
       .notEmpty()
       .matches(/^[a-zA-Z0-9\s,'-]*$/);
     request.getValidationResult().then((error) => {
@@ -123,7 +129,10 @@ module.exports = {
       .notEmpty()
       .matches(/^[a-zA-Z0-9\s,'-]*$/);
     request
-      .check("content", "Invalid content (check invalid characters in content field)")
+      .check(
+        "content",
+        "Invalid content (check invalid characters in content field)"
+      )
       .notEmpty()
       .matches(/^[a-zA-Z0-9\s,'-]*$/);
     request.getValidationResult().then((error) => {
@@ -148,7 +157,7 @@ module.exports = {
     //console.log("req.user.username", req.user.username);
     //console.log("req.body", req.body);
     //console.log(req.file);
-    //console.log("req.body", req.body); 
+    //console.log("req.body", req.body);
     let newStory = {
       title: req.body.title,
       content: req.body.content,
@@ -159,21 +168,43 @@ module.exports = {
       author: req.user,
     };
     Story.create(newStory)
-      .then(story => {
+      .then((story) => {
         //console.log("story:  ", story.id);
         console.log("story:  ", story);
         res.locals.redirect = `/stories`;
         res.locals.story = story;
         //console.log("res locals", res.locals)
-        User
-          .findByIdAndUpdate(
-            req.user,
-            { $push: { Stories: story._id } },
-            { new: true, useFindAndModify: false, upsert: true }
-          );
-        next();
+        User.findByIdAndUpdate(
+          req.user,
+          { $push: { Stories: story._id } },
+          { new: true, useFindAndModify: false, upsert: true }
+        );
+
+        //We need to notify all users that follow this user
+        User.find({ Connections: req.user._id })
+          .then((users) => {
+            //users that follow this user
+            for (var i = 0; i < users.length; i++) {
+              //push a notification
+              User.findByIdAndUpdate(users[i]._id, {
+                $addToSet: {
+                  Notifications: story._id,
+                },
+              })
+                .then(() => {
+                  console.log("SUCCESSSSSSSSSSS");
+                })
+                .catch((error) => {
+                  next(error);
+                });
+            }
+            next();
+          })
+          .catch((err) => {
+            next(err);
+          });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(`Error saving story: ${error.message}`);
         next(error);
       });
@@ -264,48 +295,43 @@ module.exports = {
             Stories: res.locals.story._id,
           };
           Tag.create(newTag)
-            .then(tag => {
+            .then((tag) => {
               console.log("new tag id:", tag._id);
               console.log("tag name:", tag.name);
               res.locals.tag = tag;
               //console.log("res", res.locals);
-              Story
-                .findByIdAndUpdate(
-                  res.locals.story._id,
-                  { $push: { tags: res.locals.tag._id } },
-                  { new: true, useFindAndModify: false, upsert: true }
-                );
-              Tag
-                .findByIdAndUpdate(
-                  res.locals.tag._id,
-                  { $push: { Stories: res.locals.story._id } },
-                  { new: true, useFindAndModify: false, upsert: true }
-                );
+              Story.findByIdAndUpdate(
+                res.locals.story._id,
+                { $push: { tags: res.locals.tag._id } },
+                { new: true, useFindAndModify: false, upsert: true }
+              );
+              Tag.findByIdAndUpdate(
+                res.locals.tag._id,
+                { $push: { Stories: res.locals.story._id } },
+                { new: true, useFindAndModify: false, upsert: true }
+              );
               next();
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(`Error saving tag: ${error.message}`);
               next(error);
             });
-        }
-        else {
+        } else {
           //console.log("res story", res.locals.story);
-         
+
           console.log("res tag", res.locals.tag);
-          Tag
-            .findByIdAndUpdate(
-              res.locals.tag._id,
-              { $push: { Stories: res.locals.story._id } },
-              { new: true, upsert: true }
-            );
+          Tag.findByIdAndUpdate(
+            res.locals.tag._id,
+            { $push: { Stories: res.locals.story._id } },
+            { new: true, upsert: true }
+          );
           //console.log("We still working here A");
-          Story
-            .findByIdAndUpdate(
-              res.locals.story._id,
-              { $push: { tags: res.locals.tag._id } },
-              { new: true, upsert: true }
-            );
-            
+          Story.findByIdAndUpdate(
+            res.locals.story._id,
+            { $push: { tags: res.locals.tag._id } },
+            { new: true, upsert: true }
+          );
+
           //console.log("We still working here B");
           //console.log("res", res.locals);
           //console.log("req", req);
@@ -313,7 +339,7 @@ module.exports = {
         }
         index++;
       });
-    })
+    });
     next();
   },
 };

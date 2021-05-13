@@ -87,6 +87,7 @@ const userSchema = mongoose.Schema(
     },
     Stories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Story" }],
     Connections: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    Notifications: [{ type: mongoose.Schema.Types.ObjectId, ref: "Story" }],
   },
   { timestamp: true }
 );
@@ -96,11 +97,10 @@ userSchema.plugin(passportLocalMongoose, {
 });
 
 userSchema.methods.addStoryToUser = function (story) {
-  return this.model("User")
-  .findByIdAndUpdate(
-      this._id,
-      { $push: { Stories: story._id } },
-      { new: true, useFindAndModify: false }
+  return this.model("User").findByIdAndUpdate(
+    this._id,
+    { $push: { Stories: story._id } },
+    { new: true, useFindAndModify: false }
   );
 };
 
