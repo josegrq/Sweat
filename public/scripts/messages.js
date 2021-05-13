@@ -1,5 +1,5 @@
 $(document).ready(() => {
-  const URL = "http://localhost:3000";
+  const URL = "https://blooming-cove-18869.herokuapp.com/";
   const socket = io(URL, { autoConnect: false });
   var form = document.getElementById("messages-form");
   var input = document.getElementById("input-message");
@@ -134,11 +134,6 @@ $(document).ready(() => {
     });
   });
 
-  //We are getting a list of users which are connections to logged in user
-  //socket.on("users", (users) => {
-  //  console.log(users);
-  //});
-
   //NEEDS IMPLEMENTARTION (SOCKET.IO)
   socket.on("private message", ({ msg, from }) => {
     //Populate the msgs
@@ -151,22 +146,6 @@ $(document).ready(() => {
     var messageView = document.getElementById("messages-view");
     messageView.scrollTop = messageView.scrollHeight;
   });
-
-  //socket.on("connect", () => {
-  //this.users.forEach((user) => {
-  //  if (user.self) {
-  //    user.connected = true;
-  //  }
-  //});
-  //});
-
-  //socket.on("disconnect", () => {
-  //this.users.forEach((user) => {
-  //  if (user.self) {
-  //    user.connected = false;
-  //  }
-  //});
-  //});
 
   const emitPrivateChat = () => {
     // Chats need to be saved into DB on server side

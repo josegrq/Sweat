@@ -24,11 +24,7 @@ router.delete(
 );
 router.get("/:id/notifications", usersController.getNotificationsPage);
 //Messages related routes
-router.get(
-  "/:from/:to/messages",
-  /*userController.filterMessages,*/
-  usersController.getMessagesPage
-);
+router.get("/:from/:to/messages", usersController.getMessagesPage);
 router.get(
   "/:id/connections",
   usersController.filterUsers,

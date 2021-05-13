@@ -1,99 +1,95 @@
 <!--home.ejs-->
-<div class="main-content">
-  <div class="home-container">
-    <div class="cover-holder d-flex mx-auto flex-column">
-      <%- include (`./stories/story`); %>
-    </div>
-    <br />
-    <div class="container main-content">
-      <div class="col-sm-10 mx-auto text-center table-responsive">
-        <table
-          class="col-sm-10 table-dark mx-auto table table-striped table-hover"
-        >
-          <thead>
-            <tr class="">
-              <th colspan="2" scope="col text-center">
-                <%= `${currentUser.name.firstName.replace(/\w/, c=>
-                c.toUpperCase())} ${currentUser.name.lastName.replace(/\w/, c =>
-                c.toUpperCase())}` %>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="width: 50%" class="text-right">Name:</td>
-              <td style="width: 50%" class="text-left">
-                <%= `${currentUser.name.firstName.replace(/\w/, c=>
-                c.toUpperCase())} ${currentUser.name.lastName.replace(/\w/, c =>
-                c.toUpperCase())}` %>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-right">Username:</td>
-              <td class="text-left"><%= currentUser.username %></td>
-            </tr>
-            <tr>
-              <td class="text-right">Date of Birth:</td>
-              <td class="text-left">
-                <%= currentUser.dob.toLocaleDateString("en-US") %>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-right">Gender:</td>
-              <td class="text-left"><%= currentUser.gender %></td>
-            </tr>
-            <tr>
-              <td class="text-right">Email:</td>
-              <td class="text-left"><%= currentUser.email %></td>
-            </tr>
-            <tr>
-              <td class="text-right">Street:</td>
-              <td class="text-left">
-                <%= currentUser.location.street.replace(/\w/, c=>
-                c.toUpperCase()) %>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-right">City:</td>
-              <td class="text-left">
-                <%= currentUser.location.city.replace(/\w/, c=> c.toUpperCase())
-                %>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-right">State:</td>
-              <td class="text-left">
-                <%= currentUser.location.state.replace(/\w/, c=>
-                c.toUpperCase()) %>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-right">City:</td>
-              <td class="text-left"><%= currentUser.location.zipCode %></td>
-            </tr>
-            <tr>
-              <td class="text-right">
-                <%= currentUser.security_questions.question.replace(/\w/, c=>
-                c.toUpperCase()) %>:
-              </td>
-              <td class="text-left">
-                <%= currentUser.security_questions.answer.replace(/\w/, c=>
-                c.toUpperCase()) %>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-right">Bio:</td>
-              <td class="text-left">
-                <%= currentUser.bio.replace(/\w/, c=> c.toUpperCase()) %>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-right">Stories:</td>
-              <td class="text-left"><%= currentUser.Stories.length %></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<div class="home-container">
+  <div class="cover-holder"><%- include (`./stories/story`); %></div>
+  <br />
+  <div class="">
+    <div class="col-sm-12 mx-auto text-center table-responsive">
+      <table
+        class="col-sm-12 table-dark mx-auto table table-striped table-hover"
+      >
+        <thead>
+          <tr class="">
+            <th colspan="2" scope="col text-center">
+              <%= `${currentUser.name.firstName.replace(/\w/, c=>
+              c.toUpperCase())} ${currentUser.name.lastName.replace(/\w/, c =>
+              c.toUpperCase())}` %>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="width: 50%" class="text-right">Name:</td>
+            <td style="width: 50%" class="text-left">
+              <%= `${currentUser.name.firstName.replace(/\w/, c=>
+              c.toUpperCase())} ${currentUser.name.lastName.replace(/\w/, c =>
+              c.toUpperCase())}` %>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-right">Username:</td>
+            <td class="text-left"><%= currentUser.username %></td>
+          </tr>
+          <tr>
+            <td class="text-right">Date of Birth:</td>
+            <td class="text-left">
+              <%= currentUser.dob.toLocaleDateString("en-US") %>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-right">Gender:</td>
+            <td class="text-left"><%= currentUser.gender %></td>
+          </tr>
+          <tr>
+            <td class="text-right">Email:</td>
+            <td class="text-left"><%= currentUser.email %></td>
+          </tr>
+          <tr>
+            <td class="text-right">Street:</td>
+            <td class="text-left">
+              <%= currentUser.location.street.replace(/\w/, c=> c.toUpperCase())
+              %>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-right">City:</td>
+            <td class="text-left">
+              <%= currentUser.location.city.replace(/\w/, c=> c.toUpperCase())
+              %>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-right">State:</td>
+            <td class="text-left">
+              <%= currentUser.location.state.replace(/\w/, c=> c.toUpperCase())
+              %>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-right">City:</td>
+            <td class="text-left"><%= currentUser.location.zipCode %></td>
+          </tr>
+          <tr>
+            <td class="text-right">
+              <%= currentUser.security_questions.question.replace(/\w/, c=>
+              c.toUpperCase()) %>:
+            </td>
+            <td class="text-left">
+              <%= currentUser.security_questions.answer.replace(/\w/, c=>
+              c.toUpperCase()) %>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-right">Bio:</td>
+            <td class="text-left">
+              <%= currentUser.bio.replace(/\w/, c=> c.toUpperCase()) %>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-right">Stories:</td>
+            <td class="text-left"><%= currentUser.Stories.length %></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

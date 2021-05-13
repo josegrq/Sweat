@@ -4,24 +4,6 @@
   box-sizing: border-box;
   font-family: Arial;
 }
-
-/*body {
-  padding-left: 300px;
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}*/
-.content-holder{
-  min-height: calc(100vh - 111px);
-  width: 100%;
-  display: flex;
-  padding: 2%;
-  background-color: #9ba4b4;
-  align-items: center;
-  justify-content: center;
-}
 .content-screen {
   height: 100px;
   min-height: calc(100vh - 111px);
@@ -37,10 +19,11 @@
   flex: 1;
 }
 .home-container {
-  position: relative;
-  height: 100%;
   width: 100%;
-  overflow-y: auto;
+  position: relative;
+  padding: 2% 0;
+  overflow: scroll;
+  height: calc(100vh - 111px);
 }
 .password-change a:hover {
   color: #fff;

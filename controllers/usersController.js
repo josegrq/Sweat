@@ -283,9 +283,7 @@ module.exports = {
         "Password must be at least 8 characters long, have at least one uppercase and lowercase letter, and must include a special character."
       )
       .notEmpty()
-      .matches(
-        /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/
-      );
+      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/);
     request
       .check("confirm_new_password", "Passwords are not the same")
       .equals(confirmPassword);
@@ -359,29 +357,17 @@ module.exports = {
     successRedirect: "/home",
     successFlash: "Successfully logged in!",
   }),
-  redirectView: (request, response, next) => {
+  redirectView: (request, response) => {
     let newPath = response.locals.redirect;
     if (newPath) {
       response.redirect(newPath);
     }
   },
-  /*filterMessages: (request, response, next){
-    const receiverUser = request.params.from;
-    //We have no recipient
-    if(rreceiverId === "0" || receiverId === 0){
-
-    }
-    else{
-
-    }
-  },*/
   getMessagesPage: (request, response) => {
     let userId = request.params.from;
     User.findById(userId)
       .then((user) => {
         let receiverId = request.params.to;
-        console.log("WE RECEIVED:");
-        console.log(receiverId);
         //We have no receiver so maybe to the general ppublic, or disable
         if (receiverId === "0" || receiverId === 0) {
           User.find({}).then((users) => {
@@ -392,14 +378,9 @@ module.exports = {
             });
           });
         } else {
-          console.log("WE DIDNT FIND");
           User.find({}).then((users) => {
-            console.log("USERS");
-            console.log(users);
             User.findById(receiverId)
               .then((receiverUser) => {
-                console.log("USER RECEIVER");
-                console.log(receiverUser);
                 response.render("chat", {
                   user: user,
                   users: users,
@@ -515,24 +496,10 @@ module.exports = {
   dismiss: (request, response, next) => {
     let userId = request.params.id;
     let storyId = request.params.story;
-    // User.findByIdAndDelete(userId)
-    //   .then((user) => {
-    //     //You can do something with the deleted user info if you want
-    //     request.logout();
-    //     request.flash("success", "Your account has been DELETED.");
-    //     response.locals.redirect = "/";
-    //     next();
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     next(error);
-    //   });
     User.update(
       { _id: userId },
       { $pull: { Notifications: storyId } },
       (error, user) => {
-        console.log("X");
-        console.log(user);
         if (error) {
           request.flash("failure", "Unable to dismiss");
         } else {
@@ -559,19 +526,6 @@ module.exports = {
   },
   getNotificationsPage: (request, response) => {
     let userId = request.params.id;
-    // User.findById(userId)
-    //   .then((user) => {
-    //     User.find({ _id: { $in: user.Connections } })
-    //       .then((connections) => {
-    //         console.log("These are the connections");
-    //         console.log(connections);
-    //         response.render("notifications", { connections: connections });
-    //       })
-    //       .catch((error) => {
-    //         console.log(error.message);
-    //       });
-    //   })
-    //   .catch((error) => console.log(error.message));
     User.findById(userId)
       .then((user) => {
         Story.find({ _id: { $in: user.Notifications } })
@@ -589,7 +543,6 @@ module.exports = {
           .catch((error) => {
             console.log(error.message);
           });
-        //console.log(user.Notifications)
       })
       .catch((error) => {
         console.log(error.message);
