@@ -18,7 +18,6 @@ const getParams = (body) => {
       zipCode: parseInt(body.zipCode),
     },
     bio: body.bio,
-    Stories: request.body.Stories,
   };
 };
 module.exports = {
