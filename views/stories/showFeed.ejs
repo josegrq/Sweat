@@ -1,5 +1,5 @@
 <div class="main-content">
-    <div class="cover-container d-flex mx-auto flex-column">
+    <div class="cover-holder d-flex mx-auto flex-column">
         <!-- ShowFeed.ejs -->
         <div class="body" id="randomContent">
             <% story.forEach(story=> { %>
@@ -10,7 +10,7 @@
                         </a>
                     </h4>
                     <br />
-                    <% if (story.img.data == undefined) {%>
+                    <% if (story.img.data==undefined) {%>
                         <h5>No Image</h5>
                         <% } else{ %>
                             <img src="data:image/<%=story.img.contentType%>;base64,

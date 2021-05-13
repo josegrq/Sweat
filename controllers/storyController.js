@@ -4,11 +4,12 @@ var Tag = require("../models/tag");
 var fs = require("fs");
 var path = require("path");
 const User = require("../models/user");
+const mongoose = require("mongoose");
 
 const getParams = (body) => {
   return {
-    title: req.body.title,
-    content: req.body.content,
+    title: body.title,
+    content: body.content,
     img: {
       data: fs.readFileSync(
         path.join(__dirname, "../public/uploads/" + req.file.filename)
@@ -16,7 +17,6 @@ const getParams = (body) => {
       contentType: "image/png",
     },
     author: req.user,
-    Stories: req.Stories,
   };
 };
 
@@ -39,38 +39,40 @@ module.exports = {
     let newStory = new Story({
       title: req.body.title,
       content: req.body.content,
-      /*img: {
+      img: {
         data: fs.readFileSync(path.join(__dirname, '../public/uploads/' + req.file.filename)),
         contentType: 'image/png'
-      },*/
+      },
       author: req.user,
       tags: extractTag(req.body.content),
     });
+    
     newStory
       .save()
       .then((result) => {
         console.log("newStory", newStory);
         User.findByIdAndUpdate(
           { author: { author: userId } },
-          { $push: { Stories: newStory._id } },
+          { $addToSet: { Stories: mongoose.Types.ObjectId(newStory._id) } },
           { safe: true, upsert: true },
           function (err, doc) {
             if (err) {
               console.log(err);
             }
           }
-        );
+        ).then(res => console.log("updated user:", res));
+
         newStory.tags.forEach(
           Tag.findOneAndUpdate(
             { tags: { name: tag.name } },
-            { $push: { Stories: newStory._id } },
+            { $addToSet: { Stories: mongoose.Types.ObjectId(newStory._id) } },
             { safe: true, upsert: true },
             function (err, doc) {
               if (err) {
                 console.log(err);
               }
             }
-          )
+          ).then(res => console.log("updated tag:", res))
         );
         res.render("home");
       })
@@ -127,21 +129,19 @@ module.exports = {
     request
       .check("title", "Invalid title (check invalid characters)")
       .notEmpty()
-      .matches(/^[a-zA-Z0-9\s,'-]*$/);
     request
       .check(
         "content",
         "Invalid content (check invalid characters in content field)"
       )
       .notEmpty()
-      .matches(/^[a-zA-Z0-9\s,'-]*$/);
     request.getValidationResult().then((error) => {
       //ERRORS
       if (!error.isEmpty()) {
         let messages = error.array().map((e) => e.msg);
         request.flash("error", messages.join(" and "));
         request.skip = true;
-        response.locals.redirect = `/stories/${storyID}`;
+        response.locals.redirect = `/stories/${storyID}/show`;
         next();
       } else {
         next();
@@ -171,15 +171,18 @@ module.exports = {
       .then((story) => {
         //console.log("story:  ", story.id);
         console.log("story:  ", story);
-        res.locals.redirect = `/stories`;
+        res.locals.redirect = `/stories/${story._id}/show`;
         res.locals.story = story;
+        storyID = story._id;
         //console.log("res locals", res.locals)
-        User.findByIdAndUpdate(
-          req.user,
-          { $push: { Stories: story._id } },
-          { new: true, useFindAndModify: false, upsert: true }
-        );
-
+        User.findByIdAndUpdate(req.user._id,
+          { $push: { story: storyID } },
+          { safe: true, upsert: true },)
+          .then((res)=>{
+            console.log("updated user:", res);
+          }).catch((error) => {
+            next(error);
+          });
         //We need to notify all users that follow this user
         User.find({ Connections: req.user._id })
           .then((users) => {
@@ -228,7 +231,7 @@ module.exports = {
     let storyParams = getParams(req.body);
     Story.findByIdAndUpdate(storyID, storyParams)
       .then((story) => {
-        res.locals.redirect = `/stories/${storyID}`;
+        res.locals.redirect = `/stories/${storyID}/show`;
         request.flash("success", "Your story has been successfully updated!");
         res.locals.story = story;
         next();
@@ -296,42 +299,48 @@ module.exports = {
           };
           Tag.create(newTag)
             .then((tag) => {
-              console.log("new tag id:", tag._id);
-              console.log("tag name:", tag.name);
+              //console.log("new tag id:", tag._id);
+              //console.log("tag name:", tag.name);
               res.locals.tag = tag;
               //console.log("res", res.locals);
               Story.findByIdAndUpdate(
                 res.locals.story._id,
-                { $push: { tags: res.locals.tag._id } },
-                { new: true, useFindAndModify: false, upsert: true }
-              );
+                { $addToSet: { tags: mongoose.Types.ObjectId(res.locals.tag._id) } },
+                //{ new: true, useFindAndModify: false, upsert: true }
+              ).then(res => console.log("updated story:", res));
+              
               Tag.findByIdAndUpdate(
                 res.locals.tag._id,
-                { $push: { Stories: res.locals.story._id } },
-                { new: true, useFindAndModify: false, upsert: true }
+                { $addToSet: { Stories: mongoose.Types.ObjectId(res.locals.story._id) } },
+                //{ new: true, useFindAndModify: false, upsert: true }
               );
               next();
-            })
+            }).then(res => console.log("updated tag:", res))
             .catch((error) => {
               console.log(`Error saving tag: ${error.message}`);
               next(error);
             });
         } else {
           //console.log("res story", res.locals.story);
-
-          console.log("res tag", res.locals.tag);
-          Tag.findByIdAndUpdate(
-            res.locals.tag._id,
-            { $push: { Stories: res.locals.story._id } },
-            { new: true, upsert: true }
-          );
+          //console.log("res tag", res.locals.tag);
+          Tag
+            .findByIdAndUpdate(
+              res.locals.tag._id,
+              { $addToSet: { Stories: mongoose.Types.ObjectId(res.locals.story._id) } },
+              { new: true, upsert: true }
+            ).then(res => console.log("updated tag:", res));
+          //res.locals.tag.addStoryToTag(res.locals.story);
           //console.log("We still working here A");
-          Story.findByIdAndUpdate(
-            res.locals.story._id,
-            { $push: { tags: res.locals.tag._id } },
-            { new: true, upsert: true }
-          );
+          Story
+            .findByIdAndUpdate(
+              res.locals.story._id,
+              { $addToSet: { tags: mongoose.Types.ObjectId(res.locals.tag._id) } },
+              //{ new: true, upsert: true }
+            ).then(res => console.log("updated story:", res));
+          //res.locals.story.addTagToStory(res.locals.tag);  
 
+          //console.log("res story", res.locals.story);
+          //console.log("res tag", res.locals.tag);
           //console.log("We still working here B");
           //console.log("res", res.locals);
           //console.log("req", req);

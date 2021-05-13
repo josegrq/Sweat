@@ -47,8 +47,8 @@ storySchema.methods.addTagToStory = function (tag) {
     return this.model("Story")
     .findByIdAndUpdate(
         this._id,
-        { $push: { tags: tag._id } },
-        { new: true, useFindAndModify: false }
+        { $addToSet: { tags: tag._id } },
+        //{ new: true, useFindAndModify: false }
     );
 };
 
@@ -61,6 +61,7 @@ storySchema.pre("save", function (next) {
         })
             .then(user => {
                 story.author = user;
+                user.addStoryToUser(story);
                 next();
             })
             .catch(error => {
@@ -68,8 +69,19 @@ storySchema.pre("save", function (next) {
                 next(error);
             });
     } else {
+        User.findOne({
+            id: story.author
+        })
+        .then(user => {
+            user.addStoryToUser(story);
+            next();
+        })
+        .catch(error => {
+            next(error);
+        });
         next();
     }
+    
 });
 
 module.exports = mongoose.model("Story", storySchema);

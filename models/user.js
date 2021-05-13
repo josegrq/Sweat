@@ -99,8 +99,8 @@ userSchema.plugin(passportLocalMongoose, {
 userSchema.methods.addStoryToUser = function (story) {
   return this.model("User").findByIdAndUpdate(
     this._id,
-    { $push: { Stories: story._id } },
-    { new: true, useFindAndModify: false }
+    { $addToSet: { Stories: story._id } },
+    //{ new: true, useFindAndModify: false }
   );
 };
 

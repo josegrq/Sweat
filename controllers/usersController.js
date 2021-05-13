@@ -58,7 +58,7 @@ module.exports = {
         answer: request.body.answer,
       },
       bio: request.body.bio,
-      Stories: request.body.Stories,
+      //Stories: request.body.Stories,
     });
     User.register(newUser, request.body.password, (error, user) => {
       if (user) {

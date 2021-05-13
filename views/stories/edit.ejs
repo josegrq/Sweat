@@ -19,10 +19,16 @@
                 value="<%= `${story.content}` %>" required> </textarea>
         </div>
         <div class="center-text center form-group" type="text" value="">
+            <% if (story.img.data == undefined) {%>
+            <div class="float-left" type="text" name="author" id="author" value="">
+                Image <input name="image" id="image" type="file" />
+            </div>
+            <% } else{ %>
             <div class="float-left" type="text" name="Image" id="Image" value="data:image/<%=story.img.contentType%>;base64,
                 <%=story.img.data.toString('base64')%>">
                 Image <input name="image" id="image" type="file" />
             </div>
+            <% } %>
         </div>
         <div>
             <button class="btn btn-primary right" type="submit">Edit</button>

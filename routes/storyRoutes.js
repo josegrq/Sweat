@@ -16,24 +16,25 @@ var upload = multer({ storage: storage });
 
 //User stories
 //router.get("/stories/showFeed", storyController.index, storyController.indexView);
-router.get("/", storyController.index, storyController.indexView);
-router.get("/:id/show", storyController.show, storyController.showView);
-router.get("/:id/showFeed", storyController.index, storyController.indexView);
 router.get("/:id/story", storyController.new);
 router.post(
   "/story/create",
   upload.single("image"),
-  //tagsController.create,
   storyController.create,
   storyController.extractTags,
   storyController.redirectView
 );
+router.get("/", storyController.index, storyController.indexView);
+router.get("/:id/show", storyController.show, storyController.showView);
+router.get("/:id/showFeed", storyController.index, storyController.indexView);
+
 //Story updates
 router.get("/:id/edit", storyController.edit);
 router.put(
   "/:id/update",
-  storyController.validateUpdate,
+  //storyController.validateUpdate,
   storyController.update,
+  storyController.extractTags,
   storyController.redirectView
 );
 //Story delete

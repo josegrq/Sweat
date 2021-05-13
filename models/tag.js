@@ -25,8 +25,8 @@ tagSchema.methods.addStoryToTag = function (story) {
     return this.model("Tag")
     .findByIdAndUpdate(
         this._id,
-        { $push: { Stories: story._id } },
-        { new: true, useFindAndModify: false }
+        { $addToSet: { Stories: story._id } },
+        //{ new: true, useFindAndModify: false }
     );
 };
 
