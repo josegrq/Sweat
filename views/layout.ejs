@@ -128,11 +128,20 @@
             </li>
             <!--Trending-->
             <li>
-              <a href="<%= `/stories/${currentUser._id}/showFeed` %>">
+              <a href="<%= `/tags/trending` %>">
                 <img
                   src="/icons/trending.png"
                   alt="trending"
                   class="icon" /><span class="trending-text"></span
+              ></a>
+            </li>
+            <!--All Stories-->
+            <li>
+              <a href="<%= `/stories/${currentUser._id}/showFeed` %>">
+                <img
+                  src="/icons/more.png"
+                  alt="all"
+                  class="icon" /><span class="all-text"></span
               ></a>
             </li>
           </ul>

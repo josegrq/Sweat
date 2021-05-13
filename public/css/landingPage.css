@@ -324,6 +324,9 @@ a {
   .trending-text::before {
     content: " Trending";
   }
+  .all-text::before {
+    content: " All Stories";
+  }
   .more-text::before {
     content: " More";
   }
@@ -355,6 +358,12 @@ a {
   }
   .post-text::before {
     content: " Post";
+  }
+  .trending-text::before {
+    content: " Trending";
+  }
+  .all-text::before {
+    content: " All Stories";
   }
   .more-text::before {
     content: " More";

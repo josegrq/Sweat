@@ -46,7 +46,7 @@ module.exports = {
       author: req.user,
       tags: extractTag(req.body.content),
     });
-    
+
     newStory
       .save()
       .then((result) => {
@@ -141,7 +141,7 @@ module.exports = {
         let messages = error.array().map((e) => e.msg);
         request.flash("error", messages.join(" and "));
         request.skip = true;
-        response.locals.redirect = `/stories/${storyID}/show`;
+        response.locals.redirect = `/stories/${storyID}/edit`;
         next();
       } else {
         next();
@@ -176,7 +176,7 @@ module.exports = {
         storyID = story._id;
         //console.log("res locals", res.locals)
         User.findByIdAndUpdate(req.user._id,
-          { $push: { story: storyID } },
+          { $push: { Stories: storyID } },
           { safe: true, upsert: true },)
           .then((res)=>{
             console.log("updated user:", res);
@@ -306,13 +306,13 @@ module.exports = {
               Story.findByIdAndUpdate(
                 res.locals.story._id,
                 { $addToSet: { tags: mongoose.Types.ObjectId(res.locals.tag._id) } },
-                //{ new: true, useFindAndModify: false, upsert: true }
+                { new: true, useFindAndModify: false, upsert: true }
               ).then(res => console.log("updated story:", res));
               
               Tag.findByIdAndUpdate(
                 res.locals.tag._id,
                 { $addToSet: { Stories: mongoose.Types.ObjectId(res.locals.story._id) } },
-                //{ new: true, useFindAndModify: false, upsert: true }
+                { new: true, useFindAndModify: false, upsert: true }
               );
               next();
             }).then(res => console.log("updated tag:", res))
@@ -335,7 +335,7 @@ module.exports = {
             .findByIdAndUpdate(
               res.locals.story._id,
               { $addToSet: { tags: mongoose.Types.ObjectId(res.locals.tag._id) } },
-              //{ new: true, upsert: true }
+              { new: true, upsert: true }
             ).then(res => console.log("updated story:", res));
           //res.locals.story.addTagToStory(res.locals.tag);  
 

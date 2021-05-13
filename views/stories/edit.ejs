@@ -11,11 +11,11 @@
         <div class="center center-text">Edit your Sweaty story! </div>
         <br />
         <div class="center center-text">Title</div>
-        <input name="title" class="form-control" placeholder="Title" value="<%= `${story.title}` %>" required />
+        <input name="title" id="title" class="form-control" placeholder="Title" value="<%= `${story.title}` %>" required />
         <br />
         <div class="form-group">
             <div class="center center-text">Content</div>
-            <textarea name="content" class="form-control" placeholder="Write your Sweaty Story!"
+            <textarea name="content" id="content" class="form-control" placeholder="Write your Sweaty Story!"
                 value="<%= `${story.content}` %>" required> </textarea>
         </div>
         <div class="center-text center form-group" type="text" value="">
