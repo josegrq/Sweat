@@ -321,7 +321,7 @@ a {
   .post-text::before {
     content: " Post";
   }
-  .trending-text::before{
+  .trending-text::before {
     content: " Trending";
   }
   .more-text::before {
@@ -394,7 +394,7 @@ a {
 }
 
 /* Page content */
-.container{
+.container {
   width: 75%;
 }
 .content {

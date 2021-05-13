@@ -7,13 +7,29 @@
   position: relative;
   margin-left: 280px;
   margin-bottom: 0px;
-  height: calc(100% - 50px);
+  height: calc(100% - 5.5em);
   background-color: white;
+  overflow: auto;
 }
-
+.chatting {
+  position: relative;
+  padding-bottom: 2%;
+  width: calc(100% - 280px);
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-left: 280px;
+}
+.chatting h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
 .messages-container form input,
 .messages-container form button {
   border: 1px solid black;
+  height: 2.5em;
+  margin: 0;
 }
 
 .connections {
@@ -49,4 +65,11 @@
 
 .connection-tab a h5 {
   margin: auto 0;
+}
+
+.right-align {
+  text-align: right;
+}
+.left-align {
+  text-align: left;
 }

@@ -18,13 +18,6 @@ const passport = require("passport");
 const User = require("./models/user");
 const { serializeUser } = require("passport");
 var multer = require("multer");
-const timestampMessages = require("./utils/timestampMessages");
-const {
-  userConnected,
-  getCurrentUser,
-  userLeft,
-  getConnectionsForCurrentUser,
-} = require("./utils/connections");
 
 //Configurations to using coookie-parser
 sess = {
@@ -54,7 +47,25 @@ const router = require("./routes/index");
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+//Middleware to check username
+io.use((socket, next) => {
+  const username = socket.handshake;
+  console.log(username);
+  //const username = socket.handshake.auth.username;
+  //if (!username) {
+  //  return next(new Error("invalid username"));
+  //}
+  //added as an attribute of the socket object, in order to be reused later
+  //DO NOT OVEWRITE ATTRIBUTES LIKE ID OR HANDSHAKE
+  //socket.username = username;
+  next();
+});
+require("./controllers/chatController")(io);
 
 app.set("port", process.env.PORT || 3000);
 app.set("view engine", "ejs");
@@ -199,65 +210,6 @@ router.delete(
 //router.use(errorController.logErrors);
 //router.use(errorController.pageNotFoundError);
 //router.use(errorController.internalServerError);
-
-/**If you want to show status of user conected to Social Media, yoou need to add the scripts of chat.ejs to layout.ejs */
-io.on("connection", (socket) => {
-  //We will store the current user ID for later use
-  let currentUserId;
-
-  //User popped into Messages tab
-  socket.on("joined chat", (userId) => {
-    //Get the user info to get their email so other users can email them
-    User.findById(userId)
-      .then((user) => {
-        console.log("Here we are");
-        //We get userid from request
-        currentUserId = userId;
-        //Add to array of connected users
-        userConnected(userId, user.email);
-        //Join user into unique room with their userid
-        socket.join(userId);
-      })
-      .catch((error) => {
-        console.log(`ERROR: ${error.message}`);
-      });
-
-    //Send to EVERYONE
-    //socket.emit("message", "Welcome");
-
-    //Send to everyone, but self
-    //socket.broadcast.emit("message", "user joined");
-
-    //Private messages
-    socket.on("private message", ({ content, to }) => {
-      socket.to(to).emit("private message", {
-        content,
-        from: userId,
-      });
-    });
-  });
-  //for (let [id, socket] of io.of("/").sockets) {
-  //  users.push({
-  //    userID: id,
-  //    username: socket,
-  //  });
-  //}
-  //for (let user of users) {
-  //  console.log("JOSE JOS JO J");
-  //  console.log(user);
-  //}
-
-  //New Chat
-  //socket.on("chat", (msg) => {
-  //  io.emit("chat", msg);
-  //});
-
-  //Disconnected
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-    userLeft(currentUserId);
-  });
-});
 
 app.use("/", router);
 server.listen(app.get("port"), () => {

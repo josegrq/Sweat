@@ -17,7 +17,13 @@ router.post(
   usersController.redirectView
 );
 router.get("/logout", usersController.logout, usersController.redirectView);
-router.get("/:id/messages", usersController.getMessagesPage);
+router.get("/:id/notifications", usersController.getNotificationsPage);
+//Messages related routes
+router.get(
+  "/:from/:to/messages",
+  /*userController.filterMessages,*/
+  usersController.getMessagesPage
+);
 router.get(
   "/:id/connections",
   usersController.filterUsers,

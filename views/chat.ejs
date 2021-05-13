@@ -1,10 +1,21 @@
 <div class="messages-container">
   <div class="connections">
+    <div class="connection-tab text-center">
+      <a
+        href="<%= `/users/${currentUser._id}/0/messages` %>"
+        class="d-flex justify-content-center"
+      >
+        <h5>General Chat</h5>
+      </a>
+    </div>
     <% user.Connections.forEach(connection => {
     users.forEach(potentialConnection => {
     if(connection.equals(potentialConnection._id)) { %>
     <div class="connection-tab text-center">
-      <a href="#" class="d-flex justify-content-center">
+      <a
+        href="<%= `/users/${currentUser._id}/${potentialConnection._id}/messages` %>"
+        class="d-flex justify-content-center"
+      >
         <h5>
           <%= `${potentialConnection.name.firstName}
           ${potentialConnection.name.lastName}` %>
@@ -13,15 +24,36 @@
     </div>
     <% } }); }); %>
   </div>
-  <ul class="messages-view" id="messages-view"></ul>
+  <div class="chatting">
+    <% if(receiverUser === null) { %>
+    <h2>Sweat Community</h2>
+    <% } else { %>
+    <h2>
+      <%= `${receiverUser.name.firstName} ${receiverUser.name.lastName}` %>
+    </h2>
+    <%}%>
+  </div>
+  <div class="messages-view" id="messages-view"></div>
   <form id="messages-form" class="input-group" action="#">
     <input
       class="form-control"
       type="text"
       placeholder="Send a message..."
       id="input-message"
-    /><button class="btn btn-primary" type="button">Send</button>
+    />
+    <input type="hidden" id="current-user-id" value="<%= currentUser._id %>" />
+    <input
+      type="hidden"
+      id="recipient-id"
+      value="<%= receiverUser === null? '': receiverUser._id %>"
+    />
+    <input
+      type="hidden"
+      id="current-user-email"
+      value="<%= currentUser.email %>"
+    />
+    <button id="send-button" class="btn btn-primary" type="button">Send</button>
   </form>
 </div>
 <script src="/socket.io/socket.io.js"></script>
-<script src="http://localhost:3000/scripts/messages.js"></script>
+<script src="/scripts/messages.js"></script>

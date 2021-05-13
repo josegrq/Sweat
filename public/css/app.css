@@ -15,8 +15,7 @@
 }*/
 
 .content-screen {
-  /*height: 100px;*/
-  min-height: calc(100vh - 111px);
+  height: calc(100vh - 111px);
   width: 100%;
   display: flex;
   padding: 2%;

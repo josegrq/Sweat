@@ -1,4 +1,4 @@
-const { request } = require("express");
+const { request, response } = require("express");
 const User = require("../models/user");
 const passport = require("passport");
 const httpStatusCodes = require("http-status-codes");
@@ -365,16 +365,53 @@ module.exports = {
       response.redirect(newPath);
     }
   },
+  /*filterMessages: (request, response, next){
+    const receiverUser = request.params.from;
+    //We have no recipient
+    if(rreceiverId === "0" || receiverId === 0){
+
+    }
+    else{
+
+    }
+  },*/
   getMessagesPage: (request, response) => {
-    let userId = request.params.id;
+    let userId = request.params.from;
     User.findById(userId)
       .then((user) => {
-        User.find({}).then((users) => {
-          response.render("chat", { user: user, users: users });
-        });
+        let receiverId = request.params.to;
+        console.log("WE RECEIVED:");
+        console.log(receiverId);
+        //We have no receiver so maybe to the general ppublic, or disable
+        if (receiverId === "0" || receiverId === 0) {
+          User.find({}).then((users) => {
+            response.render("chat", {
+              user: user,
+              users: users,
+              receiverUser: null,
+            });
+          });
+        } else {
+          console.log("WE DIDNT FIND");
+          User.find({}).then((users) => {
+            console.log("USERS");
+            console.log(users);
+            User.findById(receiverId)
+              .then((receiverUser) => {
+                console.log("USER RECEIVER");
+                console.log(receiverUser);
+                response.render("chat", {
+                  user: user,
+                  users: users,
+                  receiverUser: receiverUser,
+                });
+              })
+              .catch((error) => console.log(error.message));
+          });
+        }
       })
       .catch((error) => {
-        next(error);
+        console.log(error.message);
       });
   },
   connections: (request, response, next) => {
@@ -474,6 +511,22 @@ module.exports = {
       .catch((error) => {
         next(error);
       });
+  },
+  getNotificationsPage: (request, response) => {
+    let userId = request.params.id;
+    User.findById(userId)
+      .then((user) => {
+        User.find({ _id: { $in: user.Connections } })
+          .then((connections) => {
+            console.log("These are the connections");
+            console.log(connections);
+            response.render("notifications", { connections: connections });
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      })
+      .catch((error) => console.log(error.message));
   },
   index: (request, response, next) => {
     User.find()

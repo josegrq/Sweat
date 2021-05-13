@@ -1,13 +1,9 @@
 <div class="connections-container">
   <div class="connections-view overflow-auto row">
     <% users.forEach((user) => { %>
-    <div class="card-container col-sm-3 text-center">
+    <div class="card-container col-sm-4 col col-lg-2 text-center">
       <div class="card">
-        <img
-          src="http://localhost:3000/images/profile_img.png"
-          class="card-img-top"
-          alt=""
-        />
+        <img src="/images/profile_img.png" class="card-img-top" alt="" />
         <div class="card-body">
           <h5 class="card-title">
             <%= `${user.name.firstName} ${user.name.lastName}`%>

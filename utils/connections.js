@@ -1,10 +1,25 @@
 const User = require("../models/user");
+const moment = require("moment");
 
 const users = [];
 
 const userConnected = (id, email) => {
-  const user = { id, email };
-  users.push(user);
+  users.push({ id, email });
+};
+
+//const timestampMessages = (email, msg) => {
+//  return {
+//    email,
+//    msg,
+//    timestamp: moment().format("h:mm a"),
+//  };
+//};
+const timestampMessages = (msg, id) => {
+  return {
+    msg,
+    id,
+    timestamp: moment().format("h:mm a"),
+  };
 };
 
 const getCurrentUser = (id) => {
@@ -35,4 +50,5 @@ module.exports = {
   getCurrentUser,
   userLeft,
   getConnectionsForCurrentUser,
+  timestampMessages,
 };
