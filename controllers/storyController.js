@@ -10,13 +10,6 @@ const getParams = (body) => {
   return {
     title: body.title,
     content: body.content,
-    img: {
-      data: fs.readFileSync(
-        path.join(__dirname, "../public/uploads/" + req.file.filename)
-      ),
-      contentType: "image/png",
-    },
-    author: req.user,
   };
 };
 
@@ -129,12 +122,14 @@ module.exports = {
     request
       .check("title", "Invalid title (check invalid characters)")
       .notEmpty()
+      .matches(/^[a-zA-Z0-9\s,'-]*$/);
     request
       .check(
         "content",
         "Invalid content (check invalid characters in content field)"
       )
       .notEmpty()
+      .matches(/^[a-zA-Z0-9\s,'-]*$/);
     request.getValidationResult().then((error) => {
       //ERRORS
       if (!error.isEmpty()) {
@@ -229,10 +224,12 @@ module.exports = {
     }
     let storyID = req.params.id;
     let storyParams = getParams(req.body);
+    console.log("res at updatestory",res);
+    console.log("req at updatestory",req);
     Story.findByIdAndUpdate(storyID, storyParams)
       .then((story) => {
         res.locals.redirect = `/stories/${storyID}/show`;
-        request.flash("success", "Your story has been successfully updated!");
+        req.flash("success", "Your story has been successfully updated!");
         res.locals.story = story;
         next();
       })
@@ -279,6 +276,10 @@ module.exports = {
       also it adds the tags orignal id to the story tags.
       ****This part does not work****
     */
+   console.log("res at ExtractTags",res);
+   if(req.query == 'PUT'){
+     let str = req
+   }
     let str = req.body.content;
     let arr = [];
     var index = 0;

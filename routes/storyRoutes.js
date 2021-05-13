@@ -32,9 +32,9 @@ router.get("/:id/showFeed", storyController.index, storyController.indexView);
 router.get("/:id/edit", storyController.edit);
 router.put(
   "/:id/update",
-  //storyController.validateUpdate,
+  storyController.validateUpdate,
   storyController.update,
-  storyController.extractTags,
+  //storyController.extractTags,
   storyController.redirectView
 );
 //Story delete

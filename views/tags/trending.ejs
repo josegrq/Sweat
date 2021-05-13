@@ -25,22 +25,21 @@
                                         <%= story.author %>
                                     </a>
                                 </div>
-                                <div class="txtDate">Posted on: <%= story.createdAt %>
-                                </div>
-                                <% if (story.author == `${currentUser._id}`) {%>
+                                <div class="txtDate">Posted on: <%= story.createdAt %></div>
+                                <% if (story.author==`${currentUser._id}`) {%>
                                     <div class="btnEdit">
-                                      <a class="button" href="<%=`/stories/${story._id}/edit`%>">
-                                        Edit Story
-                                      </a>
+                                        <a class="button" href="<%=`/stories/${story._id}/edit`%>">
+                                            Edit Story
+                                        </a>
                                     </div>
                                     <div class="btnDelete">
-                                      <a class="button" href="<%= `/stories/${story._id}/delete?_method=DELETE` %>"
-                                        onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
-                                    </div>            
-                                  <% } %>
+                                        <a class="button" href="<%= `/stories/${story._id}/delete?_method=DELETE` %>"
+                                            onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
+                                    </div>
+                                <% } %>
                 </div>
                 <br />
-                <% }); %>
+            <% }); %>
         </div>
     </div>
 </div>
