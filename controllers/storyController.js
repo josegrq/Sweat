@@ -286,7 +286,7 @@ module.exports = {
     });
     arr.forEach(function () {
       console.log("extractTag array:", arr[index].name);
-      Tag.findOne({ name: arr[index].name }, function (err, doc) {
+      Tag.findOne({ name: arr.name }, function (err, doc) {
         //console.log("TAG ", doc);
         res.locals.tag = doc;
         //console.log("After find",res.locals.tag);
@@ -344,8 +344,9 @@ module.exports = {
           //console.log("req", req);
           //console.log("res after tag:", res.locals);*/
         }
+        index++;
       });
-      index++;
+      
     });
     next();
   },

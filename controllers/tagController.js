@@ -17,7 +17,7 @@ module.exports = {
             {   
                 $sort: {"Stories_count":1} 
             }
-        ]);
+        ]).then(res => console.log("Aggregate: ", res));
         Tag.find({})
             .then(tag => {
                 res.locals.tag = tag;
