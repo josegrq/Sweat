@@ -2,48 +2,32 @@
     <div class="cover-holder d-flex mx-auto flex-column">
         <!-- trending.ejs -->
         <div class="body" id="randomContent">
-            <% tags.forEach(tag=> { %>
+            <% tag.forEach(tag=> { %>
                 <div class="content-box">
-                    <h4><%= tag.name %></h4>
-                    <br /> 
-                    <% tag.Stories.forEach(story=> { %>
                     <h4>
-                        <a href="<%= `/stories/${story._id}/show` %>">
-                        <%= story.title %>
-                    </a>
+                        <%= tag.name %>
                     </h4>
                     <br />
-                    <% if (story.img.data==undefined) {%>
-                        <h5>No Image</h5>
-                        <% } else{ %>
-                            <img src="data:image/<%=story.img.contentType%>;base64,
-                    <%=story.img.data.toString('base64')%>" alt="image" style="width: 100%; height: 400px">
-                            <% } %>
-                                <div class="txtCaption">
-                                    <%= story.content %>
-                                </div>
-                                <br />
-                                <div class="txtAuthor">Post by:
-                                    <a href="<%= `/users/${story.author}` %>">
-                                        <%= story.author %>
-                                    </a>
-                                </div>
-                                <div class="txtDate">Posted on: <%= story.createdAt %></div>
-                                <% if (story.author==`${currentUser._id}`) {%>
-                                    <div class="btnEdit">
-                                        <a class="button" href="<%=`/stories/${story._id}/edit`%>">
-                                            Edit Story
-                                        </a>
-                                    </div>
-                                    <div class="btnDelete">
-                                        <a class="button" href="<%= `/stories/${story._id}/delete?_method=DELETE` %>"
-                                            onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
-                                    </div>
-                                <% } %>
+                    <% tag.Stories.forEach(story=> { %>
+                        <h4>
+                            <a href="<%= `/stories/${story._id}/show` %>">
+                                <%= story.title %>
+                            </a>
+                        </h4>
+                        <br />
+                        <div class="txtCaption">
+                            <%= story.content %>
+                        </div>
+                        <br />
+                        <div class="txtAuthor">Post by:
+                            <a href="<%= `/users/${story.author}` %>">
+                                <%= story.author %>
+                            </a>
+                        </div>
                 </div>
                 <br />
                 <% }); %>
-            <% }); %>
+                    <% }); %>
         </div>
     </div>
 </div>
