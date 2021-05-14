@@ -10,6 +10,14 @@ const getParams = (body) => {
 };
 module.exports = {
     index: function (req, res, next) {
+        Tag.aggregate([
+            {
+                $addFields: { Stories_count: {$size: { "$ifNull": [ "$Stories", [] ] } } }
+            }, 
+            {   
+                $sort: {"Stories_count":1} 
+            }
+        ]);
         Tag.find({})
             .then(tag => {
                 res.locals.tag = tag;
@@ -36,4 +44,5 @@ module.exports = {
                 next(error);
             });
     },
+    
 }

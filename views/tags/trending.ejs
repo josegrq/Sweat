@@ -1,13 +1,16 @@
 <div class="main-content">
     <div class="cover-holder d-flex mx-auto flex-column">
-        <!-- ShowFeed.ejs -->
+        <!-- trending.ejs -->
         <div class="body" id="randomContent">
-            <% story.forEach(story=> { %>
+            <% tags.forEach(tag=> { %>
                 <div class="content-box">
+                    <h4><%= tag.name %></h4>
+                    <br /> 
+                    <% tag.Stories.forEach(story=> { %>
                     <h4>
                         <a href="<%= `/stories/${story._id}/show` %>">
-                            <%= story.title %>
-                        </a>
+                        <%= story.title %>
+                    </a>
                     </h4>
                     <br />
                     <% if (story.img.data==undefined) {%>
@@ -39,6 +42,7 @@
                                 <% } %>
                 </div>
                 <br />
+                <% }); %>
             <% }); %>
         </div>
     </div>

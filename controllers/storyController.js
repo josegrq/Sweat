@@ -244,7 +244,7 @@ module.exports = {
       .then((story) => {
         //You can do something with the deleted story info if you want
         request.flash("success", "Your Story has been DELETED.");
-        response.locals.redirect = "home";
+        response.locals.redirect = "/home";
         next();
       })
       .catch((error) => {
@@ -277,9 +277,6 @@ module.exports = {
       ****This part does not work****
     */
    console.log("res at ExtractTags",res);
-   if(req.query == 'PUT'){
-     let str = req
-   }
     let str = req.body.content;
     let arr = [];
     var index = 0;
@@ -347,8 +344,8 @@ module.exports = {
           //console.log("req", req);
           //console.log("res after tag:", res.locals);*/
         }
-        index++;
       });
+      index++;
     });
     next();
   },

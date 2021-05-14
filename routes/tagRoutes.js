@@ -3,4 +3,6 @@ const tagController = require("../controllers/tagController");
 
 router.get("/:id/trending", tagController.index, tagController.indexView);
 
+
+
 module.exports = router;
