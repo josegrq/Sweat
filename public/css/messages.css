@@ -7,7 +7,7 @@
   position: relative;
   margin-left: 280px;
   margin-bottom: 0px;
-  max-height: calc(100% - 5.5em);
+  height: calc(100% - 5.5em);
   background-color: white;
   overflow: auto;
 }
